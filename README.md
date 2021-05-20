@@ -1,4 +1,4 @@
-# Seven Ways To Install Cert Manager: A guide to software package installation on Kubernetes.
+# *Seven Ways To Install Cert Manager*: A Guide to Package Installation on Kubernetes.
 
 There are lots of different ways to install software packages onto Kubernetes. 
 
@@ -6,7 +6,7 @@ Some of them have seen wide adoption in the community for distributing packages,
 
 VMware Tanzu is moving towards a different approach, using `kapp-controller` packages, a still emerging and not (yet) widely adopted approach but one which seems to offer some advantages. 
 
-This repo, using cert-manager as an example, gives an overview of current community practices for installing packages onto Kubernetes, and how some of the capabilities of `kapp-controller` might fit in.
+This repo, using cert-manager as an example, gives an overview of current community practices for installing packages onto Kubernetes, and how some of the (current) capabilities of `kapp-controller` might fit in.
 
 For each approach to packaging, we will be interested in (and possibly evaluating tradeoffs between):
 - Making software easy to install and update
