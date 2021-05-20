@@ -1,4 +1,4 @@
-# *Seven Ways To Install Cert Manager*: A Guide to Package Installation on Kubernetes.
+# *Seven Ways To Install Cert Manager* -  A Guide to Package Installation on Kubernetes
 
 There are lots of different ways to install software packages onto Kubernetes. 
 
