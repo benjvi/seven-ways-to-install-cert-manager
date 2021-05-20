@@ -6,7 +6,7 @@ Some of them have seen wide adoption in the community, like distributing plain K
 
 VMware Tanzu is moving towards a different approach, using `kapp-controller` packages, a still emerging and not (yet) widely adopted approach but one which seems to offer some advantages. 
 
-This repo, using cert-manager as an example, gives an overview of current community practices for installing packages onto Kubernetes, and how some of the (current) capabilities of `kapp-controller` might fit in.
+This repo, using cert-manager as an example, gives an overview of the most popular practices for installing packages onto Kubernetes, and how some of the (current) capabilities of `kapp-controller` might fit in.
 
 For each approach to packaging, we will be interested in (and possibly evaluating tradeoffs between):
 - Making software easy to install and update
