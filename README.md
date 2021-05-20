@@ -2,7 +2,7 @@
 
 There are lots of different ways to install software packages onto Kubernetes. 
 
-Some of them have seen wide adoption in the community for distributing packages, like distributing plain Kubernetes manifests and Helm charts.
+Some of them have seen wide adoption in the community, like distributing plain Kubernetes manifests and Helm charts.
 
 VMware Tanzu is moving towards a different approach, using `kapp-controller` packages, a still emerging and not (yet) widely adopted approach but one which seems to offer some advantages. 
 
