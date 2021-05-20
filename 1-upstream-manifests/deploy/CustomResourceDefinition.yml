@@ -23,8 +23,6 @@ spec:
         - v1beta1
   group: cert-manager.io
   names:
-    categories:
-      - cert-manager
     kind: CertificateRequest
     listKind: CertificateRequestList
     plural: certificaterequests
@@ -35,20 +33,12 @@ spec:
   scope: Namespaced
   versions:
     - additionalPrinterColumns:
-        - jsonPath: ".status.conditions[?(@.type==\"Approved\")].status"
-          name: Approved
-          type: string
-        - jsonPath: ".status.conditions[?(@.type==\"Denied\")].status"
-          name: Denied
-          type: string
         - jsonPath: ".status.conditions[?(@.type==\"Ready\")].status"
           name: Ready
           type: string
         - jsonPath: ".spec.issuerRef.name"
           name: Issuer
-          type: string
-        - jsonPath: ".spec.username"
-          name: Requestor
+          priority: 1
           type: string
         - jsonPath: ".status.conditions[?(@.type==\"Ready\")].message"
           name: Status
@@ -61,7 +51,7 @@ spec:
       name: v1alpha2
       schema:
         openAPIV3Schema:
-          description: "A CertificateRequest is used to request a signed certificate from one of the configured issuers. \n All fields within the CertificateRequest's `spec` are immutable after creation. A CertificateRequest will either succeed or fail, as denoted by its `status.state` field. \n A CertificateRequest is a one-shot resource, meaning it represents a single point in time request for a certificate and cannot be re-used."
+          description: "A CertificateRequest is used to request a signed certificate from one of the configured issuers. \n All fields within the CertificateRequest's `spec` are immutable after creation. A CertificateRequest will either succeed or fail, as denoted by its `status.state` field. \n A CertificateRequest is a 'one-shot' resource, meaning it represents a single point in time request for a certificate and cannot be re-used."
           properties:
             apiVersion:
               description: "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources"
@@ -81,24 +71,11 @@ spec:
                 duration:
                   description: "The requested 'duration' (i.e. lifetime) of the Certificate. This option may be ignored/overridden by some issuer types."
                   type: string
-                extra:
-                  additionalProperties:
-                    items:
-                      type: string
-                    type: array
-                  description: Extra contains extra attributes of the user that created the CertificateRequest. Populated by the cert-manager webhook on creation and immutable.
-                  type: object
-                groups:
-                  description: Groups contains group membership of the user that created the CertificateRequest. Populated by the cert-manager webhook on creation and immutable.
-                  items:
-                    type: string
-                  type: array
-                  x-kubernetes-list-type: atomic
                 isCA:
                   description: "IsCA will request to mark the certificate as valid for certificate signing when submitting to the issuer. This will automatically add the `cert sign` usage to the list of `usages`."
                   type: boolean
                 issuerRef:
-                  description: "IssuerRef is a reference to the issuer for this CertificateRequest.  If the `kind` field is not set, or set to `Issuer`, an Issuer resource with the given name in the same namespace as the CertificateRequest will be used.  If the `kind` field is set to `ClusterIssuer`, a ClusterIssuer with the provided name will be used. The `name` field in this stanza is required at all times. The group field refers to the API group of the issuer which defaults to `cert-manager.io` if empty."
+                  description: "IssuerRef is a reference to the issuer for this CertificateRequest.  If the 'kind' field is not set, or set to 'Issuer', an Issuer resource with the given name in the same namespace as the CertificateRequest will be used.  If the 'kind' field is set to 'ClusterIssuer', a ClusterIssuer with the provided name will be used. The 'name' field in this stanza is required at all times. The group field refers to the API group of the issuer which defaults to 'cert-manager.io' if empty."
                   properties:
                     group:
                       description: Group of the resource being referred to.
@@ -112,9 +89,6 @@ spec:
                   required:
                     - name
                   type: object
-                uid:
-                  description: UID contains the uid of the user that created the CertificateRequest. Populated by the cert-manager webhook on creation and immutable.
-                  type: string
                 usages:
                   description: "Usages is the set of x509 usages that are requested for the certificate. Defaults to `digital signature` and `key encipherment` if not specified."
                   items:
@@ -145,9 +119,6 @@ spec:
                       - netscape sgc
                     type: string
                   type: array
-                username:
-                  description: Username contains the name of the user that created the CertificateRequest. Populated by the cert-manager webhook on creation and immutable.
-                  type: string
               required:
                 - csr
                 - issuerRef
@@ -179,14 +150,14 @@ spec:
                         description: "Reason is a brief machine readable explanation for the condition's last transition."
                         type: string
                       status:
-                        description: "Status of the condition, one of (`True`, `False`, `Unknown`)."
+                        description: "Status of the condition, one of ('True', 'False', 'Unknown')."
                         enum:
                           - "True"
                           - "False"
                           - Unknown
                         type: string
                       type:
-                        description: "Type of the condition, known values are (`Ready`, `InvalidRequest`, `Approved`, `Denied`)."
+                        description: "Type of the condition, known values are ('Ready', 'InvalidRequest')."
                         type: string
                     required:
                       - status
@@ -204,20 +175,12 @@ spec:
       subresources:
         status: {}
     - additionalPrinterColumns:
-        - jsonPath: ".status.conditions[?(@.type==\"Approved\")].status"
-          name: Approved
-          type: string
-        - jsonPath: ".status.conditions[?(@.type==\"Denied\")].status"
-          name: Denied
-          type: string
         - jsonPath: ".status.conditions[?(@.type==\"Ready\")].status"
           name: Ready
           type: string
         - jsonPath: ".spec.issuerRef.name"
           name: Issuer
-          type: string
-        - jsonPath: ".spec.username"
-          name: Requestor
+          priority: 1
           type: string
         - jsonPath: ".status.conditions[?(@.type==\"Ready\")].message"
           name: Status
@@ -230,7 +193,7 @@ spec:
       name: v1alpha3
       schema:
         openAPIV3Schema:
-          description: "A CertificateRequest is used to request a signed certificate from one of the configured issuers. \n All fields within the CertificateRequest's `spec` are immutable after creation. A CertificateRequest will either succeed or fail, as denoted by its `status.state` field. \n A CertificateRequest is a one-shot resource, meaning it represents a single point in time request for a certificate and cannot be re-used."
+          description: "A CertificateRequest is used to request a signed certificate from one of the configured issuers. \n All fields within the CertificateRequest's `spec` are immutable after creation. A CertificateRequest will either succeed or fail, as denoted by its `status.state` field. \n A CertificateRequest is a 'one-shot' resource, meaning it represents a single point in time request for a certificate and cannot be re-used."
           properties:
             apiVersion:
               description: "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources"
@@ -250,24 +213,11 @@ spec:
                 duration:
                   description: "The requested 'duration' (i.e. lifetime) of the Certificate. This option may be ignored/overridden by some issuer types."
                   type: string
-                extra:
-                  additionalProperties:
-                    items:
-                      type: string
-                    type: array
-                  description: Extra contains extra attributes of the user that created the CertificateRequest. Populated by the cert-manager webhook on creation and immutable.
-                  type: object
-                groups:
-                  description: Groups contains group membership of the user that created the CertificateRequest. Populated by the cert-manager webhook on creation and immutable.
-                  items:
-                    type: string
-                  type: array
-                  x-kubernetes-list-type: atomic
                 isCA:
                   description: "IsCA will request to mark the certificate as valid for certificate signing when submitting to the issuer. This will automatically add the `cert sign` usage to the list of `usages`."
                   type: boolean
                 issuerRef:
-                  description: "IssuerRef is a reference to the issuer for this CertificateRequest.  If the `kind` field is not set, or set to `Issuer`, an Issuer resource with the given name in the same namespace as the CertificateRequest will be used.  If the `kind` field is set to `ClusterIssuer`, a ClusterIssuer with the provided name will be used. The `name` field in this stanza is required at all times. The group field refers to the API group of the issuer which defaults to `cert-manager.io` if empty."
+                  description: "IssuerRef is a reference to the issuer for this CertificateRequest.  If the 'kind' field is not set, or set to 'Issuer', an Issuer resource with the given name in the same namespace as the CertificateRequest will be used.  If the 'kind' field is set to 'ClusterIssuer', a ClusterIssuer with the provided name will be used. The 'name' field in this stanza is required at all times. The group field refers to the API group of the issuer which defaults to 'cert-manager.io' if empty."
                   properties:
                     group:
                       description: Group of the resource being referred to.
@@ -281,9 +231,6 @@ spec:
                   required:
                     - name
                   type: object
-                uid:
-                  description: UID contains the uid of the user that created the CertificateRequest. Populated by the cert-manager webhook on creation and immutable.
-                  type: string
                 usages:
                   description: "Usages is the set of x509 usages that are requested for the certificate. Defaults to `digital signature` and `key encipherment` if not specified."
                   items:
@@ -314,9 +261,6 @@ spec:
                       - netscape sgc
                     type: string
                   type: array
-                username:
-                  description: Username contains the name of the user that created the CertificateRequest. Populated by the cert-manager webhook on creation and immutable.
-                  type: string
               required:
                 - csr
                 - issuerRef
@@ -348,14 +292,14 @@ spec:
                         description: "Reason is a brief machine readable explanation for the condition's last transition."
                         type: string
                       status:
-                        description: "Status of the condition, one of (`True`, `False`, `Unknown`)."
+                        description: "Status of the condition, one of ('True', 'False', 'Unknown')."
                         enum:
                           - "True"
                           - "False"
                           - Unknown
                         type: string
                       type:
-                        description: "Type of the condition, known values are (`Ready`, `InvalidRequest`, `Approved`, `Denied`)."
+                        description: "Type of the condition, known values are ('Ready', 'InvalidRequest')."
                         type: string
                     required:
                       - status
@@ -373,20 +317,12 @@ spec:
       subresources:
         status: {}
     - additionalPrinterColumns:
-        - jsonPath: ".status.conditions[?(@.type==\"Approved\")].status"
-          name: Approved
-          type: string
-        - jsonPath: ".status.conditions[?(@.type==\"Denied\")].status"
-          name: Denied
-          type: string
         - jsonPath: ".status.conditions[?(@.type==\"Ready\")].status"
           name: Ready
           type: string
         - jsonPath: ".spec.issuerRef.name"
           name: Issuer
-          type: string
-        - jsonPath: ".spec.username"
-          name: Requestor
+          priority: 1
           type: string
         - jsonPath: ".status.conditions[?(@.type==\"Ready\")].message"
           name: Status
@@ -399,7 +335,7 @@ spec:
       name: v1beta1
       schema:
         openAPIV3Schema:
-          description: "A CertificateRequest is used to request a signed certificate from one of the configured issuers. \n All fields within the CertificateRequest's `spec` are immutable after creation. A CertificateRequest will either succeed or fail, as denoted by its `status.state` field. \n A CertificateRequest is a one-shot resource, meaning it represents a single point in time request for a certificate and cannot be re-used."
+          description: "A CertificateRequest is used to request a signed certificate from one of the configured issuers. \n All fields within the CertificateRequest's `spec` are immutable after creation. A CertificateRequest will either succeed or fail, as denoted by its `status.state` field. \n A CertificateRequest is a 'one-shot' resource, meaning it represents a single point in time request for a certificate and cannot be re-used."
           properties:
             apiVersion:
               description: "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources"
@@ -415,24 +351,11 @@ spec:
                 duration:
                   description: "The requested 'duration' (i.e. lifetime) of the Certificate. This option may be ignored/overridden by some issuer types."
                   type: string
-                extra:
-                  additionalProperties:
-                    items:
-                      type: string
-                    type: array
-                  description: Extra contains extra attributes of the user that created the CertificateRequest. Populated by the cert-manager webhook on creation and immutable.
-                  type: object
-                groups:
-                  description: Groups contains group membership of the user that created the CertificateRequest. Populated by the cert-manager webhook on creation and immutable.
-                  items:
-                    type: string
-                  type: array
-                  x-kubernetes-list-type: atomic
                 isCA:
                   description: "IsCA will request to mark the certificate as valid for certificate signing when submitting to the issuer. This will automatically add the `cert sign` usage to the list of `usages`."
                   type: boolean
                 issuerRef:
-                  description: "IssuerRef is a reference to the issuer for this CertificateRequest.  If the `kind` field is not set, or set to `Issuer`, an Issuer resource with the given name in the same namespace as the CertificateRequest will be used.  If the `kind` field is set to `ClusterIssuer`, a ClusterIssuer with the provided name will be used. The `name` field in this stanza is required at all times. The group field refers to the API group of the issuer which defaults to `cert-manager.io` if empty."
+                  description: "IssuerRef is a reference to the issuer for this CertificateRequest.  If the 'kind' field is not set, or set to 'Issuer', an Issuer resource with the given name in the same namespace as the CertificateRequest will be used.  If the 'kind' field is set to 'ClusterIssuer', a ClusterIssuer with the provided name will be used. The 'name' field in this stanza is required at all times. The group field refers to the API group of the issuer which defaults to 'cert-manager.io' if empty."
                   properties:
                     group:
                       description: Group of the resource being referred to.
@@ -450,9 +373,6 @@ spec:
                   description: The PEM-encoded x509 certificate signing request to be submitted to the CA for signing.
                   format: byte
                   type: string
-                uid:
-                  description: UID contains the uid of the user that created the CertificateRequest. Populated by the cert-manager webhook on creation and immutable.
-                  type: string
                 usages:
                   description: "Usages is the set of x509 usages that are requested for the certificate. Defaults to `digital signature` and `key encipherment` if not specified."
                   items:
@@ -483,9 +403,6 @@ spec:
                       - netscape sgc
                     type: string
                   type: array
-                username:
-                  description: Username contains the name of the user that created the CertificateRequest. Populated by the cert-manager webhook on creation and immutable.
-                  type: string
               required:
                 - issuerRef
                 - request
@@ -517,14 +434,14 @@ spec:
                         description: "Reason is a brief machine readable explanation for the condition's last transition."
                         type: string
                       status:
-                        description: "Status of the condition, one of (`True`, `False`, `Unknown`)."
+                        description: "Status of the condition, one of ('True', 'False', 'Unknown')."
                         enum:
                           - "True"
                           - "False"
                           - Unknown
                         type: string
                       type:
-                        description: "Type of the condition, known values are (`Ready`, `InvalidRequest`, `Approved`, `Denied`)."
+                        description: "Type of the condition, known values are ('Ready', 'InvalidRequest')."
                         type: string
                     required:
                       - status
@@ -544,20 +461,12 @@ spec:
       subresources:
         status: {}
     - additionalPrinterColumns:
-        - jsonPath: ".status.conditions[?(@.type==\"Approved\")].status"
-          name: Approved
-          type: string
-        - jsonPath: ".status.conditions[?(@.type==\"Denied\")].status"
-          name: Denied
-          type: string
         - jsonPath: ".status.conditions[?(@.type==\"Ready\")].status"
           name: Ready
           type: string
         - jsonPath: ".spec.issuerRef.name"
           name: Issuer
-          type: string
-        - jsonPath: ".spec.username"
-          name: Requestor
+          priority: 1
           type: string
         - jsonPath: ".status.conditions[?(@.type==\"Ready\")].message"
           name: Status
@@ -570,7 +479,7 @@ spec:
       name: v1
       schema:
         openAPIV3Schema:
-          description: "A CertificateRequest is used to request a signed certificate from one of the configured issuers. \n All fields within the CertificateRequest's `spec` are immutable after creation. A CertificateRequest will either succeed or fail, as denoted by its `status.state` field. \n A CertificateRequest is a one-shot resource, meaning it represents a single point in time request for a certificate and cannot be re-used."
+          description: "A CertificateRequest is used to request a signed certificate from one of the configured issuers. \n All fields within the CertificateRequest's `spec` are immutable after creation. A CertificateRequest will either succeed or fail, as denoted by its `status.state` field. \n A CertificateRequest is a 'one-shot' resource, meaning it represents a single point in time request for a certificate and cannot be re-used."
           properties:
             apiVersion:
               description: "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources"
@@ -586,24 +495,11 @@ spec:
                 duration:
                   description: "The requested 'duration' (i.e. lifetime) of the Certificate. This option may be ignored/overridden by some issuer types."
                   type: string
-                extra:
-                  additionalProperties:
-                    items:
-                      type: string
-                    type: array
-                  description: Extra contains extra attributes of the user that created the CertificateRequest. Populated by the cert-manager webhook on creation and immutable.
-                  type: object
-                groups:
-                  description: Groups contains group membership of the user that created the CertificateRequest. Populated by the cert-manager webhook on creation and immutable.
-                  items:
-                    type: string
-                  type: array
-                  x-kubernetes-list-type: atomic
                 isCA:
                   description: "IsCA will request to mark the certificate as valid for certificate signing when submitting to the issuer. This will automatically add the `cert sign` usage to the list of `usages`."
                   type: boolean
                 issuerRef:
-                  description: "IssuerRef is a reference to the issuer for this CertificateRequest.  If the `kind` field is not set, or set to `Issuer`, an Issuer resource with the given name in the same namespace as the CertificateRequest will be used.  If the `kind` field is set to `ClusterIssuer`, a ClusterIssuer with the provided name will be used. The `name` field in this stanza is required at all times. The group field refers to the API group of the issuer which defaults to `cert-manager.io` if empty."
+                  description: "IssuerRef is a reference to the issuer for this CertificateRequest.  If the 'kind' field is not set, or set to 'Issuer', an Issuer resource with the given name in the same namespace as the CertificateRequest will be used.  If the 'kind' field is set to 'ClusterIssuer', a ClusterIssuer with the provided name will be used. The 'name' field in this stanza is required at all times. The group field refers to the API group of the issuer which defaults to 'cert-manager.io' if empty."
                   properties:
                     group:
                       description: Group of the resource being referred to.
@@ -620,9 +516,6 @@ spec:
                 request:
                   description: The PEM-encoded x509 certificate signing request to be submitted to the CA for signing.
                   format: byte
-                  type: string
-                uid:
-                  description: UID contains the uid of the user that created the CertificateRequest. Populated by the cert-manager webhook on creation and immutable.
                   type: string
                 usages:
                   description: "Usages is the set of x509 usages that are requested for the certificate. If usages are set they SHOULD be encoded inside the CSR spec Defaults to `digital signature` and `key encipherment` if not specified."
@@ -654,9 +547,6 @@ spec:
                       - netscape sgc
                     type: string
                   type: array
-                username:
-                  description: Username contains the name of the user that created the CertificateRequest. Populated by the cert-manager webhook on creation and immutable.
-                  type: string
               required:
                 - issuerRef
                 - request
@@ -688,14 +578,14 @@ spec:
                         description: "Reason is a brief machine readable explanation for the condition's last transition."
                         type: string
                       status:
-                        description: "Status of the condition, one of (`True`, `False`, `Unknown`)."
+                        description: "Status of the condition, one of ('True', 'False', 'Unknown')."
                         enum:
                           - "True"
                           - "False"
                           - Unknown
                         type: string
                       type:
-                        description: "Type of the condition, known values are (`Ready`, `InvalidRequest`, `Approved`, `Denied`)."
+                        description: "Type of the condition, known values are ('Ready', 'InvalidRequest')."
                         type: string
                     required:
                       - status
@@ -745,8 +635,6 @@ spec:
         - v1beta1
   group: cert-manager.io
   names:
-    categories:
-      - cert-manager
     kind: Certificate
     listKind: CertificateList
     plural: certificates
@@ -819,7 +707,7 @@ spec:
                   description: "IsCA will mark this Certificate as valid for certificate signing. This will automatically add the `cert sign` usage to the list of `usages`."
                   type: boolean
                 issuerRef:
-                  description: "IssuerRef is a reference to the issuer for this certificate. If the `kind` field is not set, or set to `Issuer`, an Issuer resource with the given name in the same namespace as the Certificate will be used. If the `kind` field is set to `ClusterIssuer`, a ClusterIssuer with the provided name will be used. The `name` field in this stanza is required at all times."
+                  description: "IssuerRef is a reference to the issuer for this certificate. If the 'kind' field is not set, or set to 'Issuer', an Issuer resource with the given name in the same namespace as the Certificate will be used. If the 'kind' field is set to 'ClusterIssuer', a ClusterIssuer with the provided name will be used. The 'name' field in this stanza is required at all times."
                   properties:
                     group:
                       description: Group of the resource being referred to.
@@ -834,19 +722,21 @@ spec:
                     - name
                   type: object
                 keyAlgorithm:
-                  description: "KeyAlgorithm is the private key algorithm of the corresponding private key for this certificate. If provided, allowed values are either `rsa` or `ecdsa` If `keyAlgorithm` is specified and `keySize` is not provided, key size of 256 will be used for `ecdsa` key algorithm and key size of 2048 will be used for `rsa` key algorithm."
+                  description: "KeyAlgorithm is the private key algorithm of the corresponding private key for this certificate. If provided, allowed values are either \"rsa\" or \"ecdsa\" If `keyAlgorithm` is specified and `keySize` is not provided, key size of 256 will be used for \"ecdsa\" key algorithm and key size of 2048 will be used for \"rsa\" key algorithm."
                   enum:
                     - rsa
                     - ecdsa
                   type: string
                 keyEncoding:
-                  description: "KeyEncoding is the private key cryptography standards (PKCS) for this certificate's private key to be encoded in. If provided, allowed values are `pkcs1` and `pkcs8` standing for PKCS#1 and PKCS#8, respectively. If KeyEncoding is not specified, then `pkcs1` will be used by default."
+                  description: "KeyEncoding is the private key cryptography standards (PKCS) for this certificate's private key to be encoded in. If provided, allowed values are \"pkcs1\" and \"pkcs8\" standing for PKCS#1 and PKCS#8, respectively. If KeyEncoding is not specified, then PKCS#1 will be used by default."
                   enum:
                     - pkcs1
                     - pkcs8
                   type: string
                 keySize:
-                  description: "KeySize is the key bit size of the corresponding private key for this certificate. If `keyAlgorithm` is set to `rsa`, valid values are `2048`, `4096` or `8192`, and will default to `2048` if not specified. If `keyAlgorithm` is set to `ecdsa`, valid values are `256`, `384` or `521`, and will default to `256` if not specified. No other values are allowed."
+                  description: "KeySize is the key bit size of the corresponding private key for this certificate. If `keyAlgorithm` is set to `RSA`, valid values are `2048`, `4096` or `8192`, and will default to `2048` if not specified. If `keyAlgorithm` is set to `ECDSA`, valid values are `256`, `384` or `521`, and will default to `256` if not specified. No other values are allowed."
+                  maximum: 8192
+                  minimum: 0
                   type: integer
                 keystores:
                   description: "Keystores configures additional keystore output formats stored in the `secretName` Secret resource."
@@ -911,10 +801,6 @@ spec:
                 renewBefore:
                   description: "The amount of time before the currently issued certificate's `notAfter` time that cert-manager will begin to attempt to renew the certificate. If this value is greater than the total duration of the certificate (i.e. notAfter - notBefore), it will be automatically renewed 2/3rds of the way through the certificate's duration."
                   type: string
-                revisionHistoryLimit:
-                  description: "revisionHistoryLimit is the maximum number of CertificateRequest revisions that are maintained in the Certificate's history. Each revision represents a single `CertificateRequest` created by this Certificate, either when it was created, renewed, or Spec was changed. Revisions will be removed by oldest first if the number of revisions exceeds this number. If set, revisionHistoryLimit must be a value of `1` or greater. If unset (`nil`), revisions will not be garbage collected. Default value is `nil`."
-                  format: int32
-                  type: integer
                 secretName:
                   description: "SecretName is the name of the secret resource that will be automatically created and managed by this Certificate resource. It will be populated with a private key and certificate, signed by the denoted issuer."
                   type: string
@@ -1009,22 +895,18 @@ spec:
                       message:
                         description: "Message is a human readable description of the details of the last transition, complementing reason."
                         type: string
-                      observedGeneration:
-                        description: "If set, this represents the .metadata.generation that the condition was set based upon. For instance, if .metadata.generation is currently 12, but the .status.condition[x].observedGeneration is 9, the condition is out of date with respect to the current state of the Certificate."
-                        format: int64
-                        type: integer
                       reason:
                         description: "Reason is a brief machine readable explanation for the condition's last transition."
                         type: string
                       status:
-                        description: "Status of the condition, one of (`True`, `False`, `Unknown`)."
+                        description: "Status of the condition, one of ('True', 'False', 'Unknown')."
                         enum:
                           - "True"
                           - "False"
                           - Unknown
                         type: string
                       type:
-                        description: "Type of the condition, known values are (`Ready`, `Issuing`)."
+                        description: "Type of the condition, known values are ('Ready', `Issuing`)."
                         type: string
                     required:
                       - status
@@ -1122,7 +1004,7 @@ spec:
                   description: "IsCA will mark this Certificate as valid for certificate signing. This will automatically add the `cert sign` usage to the list of `usages`."
                   type: boolean
                 issuerRef:
-                  description: "IssuerRef is a reference to the issuer for this certificate. If the `kind` field is not set, or set to `Issuer`, an Issuer resource with the given name in the same namespace as the Certificate will be used. If the `kind` field is set to `ClusterIssuer`, a ClusterIssuer with the provided name will be used. The `name` field in this stanza is required at all times."
+                  description: "IssuerRef is a reference to the issuer for this certificate. If the 'kind' field is not set, or set to 'Issuer', an Issuer resource with the given name in the same namespace as the Certificate will be used. If the 'kind' field is set to 'ClusterIssuer', a ClusterIssuer with the provided name will be used. The 'name' field in this stanza is required at all times."
                   properties:
                     group:
                       description: Group of the resource being referred to.
@@ -1137,19 +1019,21 @@ spec:
                     - name
                   type: object
                 keyAlgorithm:
-                  description: "KeyAlgorithm is the private key algorithm of the corresponding private key for this certificate. If provided, allowed values are either `rsa` or `ecdsa` If `keyAlgorithm` is specified and `keySize` is not provided, key size of 256 will be used for `ecdsa` key algorithm and key size of 2048 will be used for `rsa` key algorithm."
+                  description: "KeyAlgorithm is the private key algorithm of the corresponding private key for this certificate. If provided, allowed values are either \"rsa\" or \"ecdsa\" If `keyAlgorithm` is specified and `keySize` is not provided, key size of 256 will be used for \"ecdsa\" key algorithm and key size of 2048 will be used for \"rsa\" key algorithm."
                   enum:
                     - rsa
                     - ecdsa
                   type: string
                 keyEncoding:
-                  description: "KeyEncoding is the private key cryptography standards (PKCS) for this certificate's private key to be encoded in. If provided, allowed values are `pkcs1` and `pkcs8` standing for PKCS#1 and PKCS#8, respectively. If KeyEncoding is not specified, then `pkcs1` will be used by default."
+                  description: "KeyEncoding is the private key cryptography standards (PKCS) for this certificate's private key to be encoded in. If provided, allowed values are \"pkcs1\" and \"pkcs8\" standing for PKCS#1 and PKCS#8, respectively. If KeyEncoding is not specified, then PKCS#1 will be used by default."
                   enum:
                     - pkcs1
                     - pkcs8
                   type: string
                 keySize:
-                  description: "KeySize is the key bit size of the corresponding private key for this certificate. If `keyAlgorithm` is set to `rsa`, valid values are `2048`, `4096` or `8192`, and will default to `2048` if not specified. If `keyAlgorithm` is set to `ecdsa`, valid values are `256`, `384` or `521`, and will default to `256` if not specified. No other values are allowed."
+                  description: "KeySize is the key bit size of the corresponding private key for this certificate. If `keyAlgorithm` is set to `RSA`, valid values are `2048`, `4096` or `8192`, and will default to `2048` if not specified. If `keyAlgorithm` is set to `ECDSA`, valid values are `256`, `384` or `521`, and will default to `256` if not specified. No other values are allowed."
+                  maximum: 8192
+                  minimum: 0
                   type: integer
                 keystores:
                   description: "Keystores configures additional keystore output formats stored in the `secretName` Secret resource."
@@ -1158,7 +1042,7 @@ spec:
                       description: "JKS configures options for storing a JKS keystore in the `spec.secretName` Secret resource."
                       properties:
                         create:
-                          description: "Create enables JKS keystore creation for the Certificate. If true, a file named `keystore.jks` will be created in the target Secret resource, encrypted using the password stored in `passwordSecretRef`. The keystore file will only be updated upon re-issuance. A file named `truststore.jks` will also be created in the target Secret resource, encrypted using the password stored in `passwordSecretRef` containing the issuing Certificate Authority."
+                          description: "Create enables JKS keystore creation for the Certificate. If true, a file named `keystore.jks` will be created in the target Secret resource, encrypted using the password stored in `passwordSecretRef`. The keystore file will only be updated upon re-issuance."
                           type: boolean
                         passwordSecretRef:
                           description: PasswordSecretRef is a reference to a key in a Secret resource containing the password used to encrypt the JKS keystore.
@@ -1180,7 +1064,7 @@ spec:
                       description: "PKCS12 configures options for storing a PKCS12 keystore in the `spec.secretName` Secret resource."
                       properties:
                         create:
-                          description: "Create enables PKCS12 keystore creation for the Certificate. If true, a file named `keystore.p12` will be created in the target Secret resource, encrypted using the password stored in `passwordSecretRef`. The keystore file will only be updated upon re-issuance. A file named `truststore.p12` will also be created in the target Secret resource, encrypted using the password stored in `passwordSecretRef` containing the issuing Certificate Authority."
+                          description: "Create enables PKCS12 keystore creation for the Certificate. If true, a file named `keystore.p12` will be created in the target Secret resource, encrypted using the password stored in `passwordSecretRef`. The keystore file will only be updated upon re-issuance."
                           type: boolean
                         passwordSecretRef:
                           description: PasswordSecretRef is a reference to a key in a Secret resource containing the password used to encrypt the PKCS12 keystore.
@@ -1209,10 +1093,6 @@ spec:
                 renewBefore:
                   description: "The amount of time before the currently issued certificate's `notAfter` time that cert-manager will begin to attempt to renew the certificate. If this value is greater than the total duration of the certificate (i.e. notAfter - notBefore), it will be automatically renewed 2/3rds of the way through the certificate's duration."
                   type: string
-                revisionHistoryLimit:
-                  description: "revisionHistoryLimit is the maximum number of CertificateRequest revisions that are maintained in the Certificate's history. Each revision represents a single `CertificateRequest` created by this Certificate, either when it was created, renewed, or Spec was changed. Revisions will be removed by oldest first if the number of revisions exceeds this number. If set, revisionHistoryLimit must be a value of `1` or greater. If unset (`nil`), revisions will not be garbage collected. Default value is `nil`."
-                  format: int32
-                  type: integer
                 secretName:
                   description: "SecretName is the name of the secret resource that will be automatically created and managed by this Certificate resource. It will be populated with a private key and certificate, signed by the denoted issuer."
                   type: string
@@ -1312,22 +1192,18 @@ spec:
                       message:
                         description: "Message is a human readable description of the details of the last transition, complementing reason."
                         type: string
-                      observedGeneration:
-                        description: "If set, this represents the .metadata.generation that the condition was set based upon. For instance, if .metadata.generation is currently 12, but the .status.condition[x].observedGeneration is 9, the condition is out of date with respect to the current state of the Certificate."
-                        format: int64
-                        type: integer
                       reason:
                         description: "Reason is a brief machine readable explanation for the condition's last transition."
                         type: string
                       status:
-                        description: "Status of the condition, one of (`True`, `False`, `Unknown`)."
+                        description: "Status of the condition, one of ('True', 'False', 'Unknown')."
                         enum:
                           - "True"
                           - "False"
                           - Unknown
                         type: string
                       type:
-                        description: "Type of the condition, known values are (`Ready`, `Issuing`)."
+                        description: "Type of the condition, known values are ('Ready', `Issuing`)."
                         type: string
                     required:
                       - status
@@ -1425,7 +1301,7 @@ spec:
                   description: "IsCA will mark this Certificate as valid for certificate signing. This will automatically add the `cert sign` usage to the list of `usages`."
                   type: boolean
                 issuerRef:
-                  description: "IssuerRef is a reference to the issuer for this certificate. If the `kind` field is not set, or set to `Issuer`, an Issuer resource with the given name in the same namespace as the Certificate will be used. If the `kind` field is set to `ClusterIssuer`, a ClusterIssuer with the provided name will be used. The `name` field in this stanza is required at all times."
+                  description: "IssuerRef is a reference to the issuer for this certificate. If the 'kind' field is not set, or set to 'Issuer', an Issuer resource with the given name in the same namespace as the Certificate will be used. If the 'kind' field is set to 'ClusterIssuer', a ClusterIssuer with the provided name will be used. The 'name' field in this stanza is required at all times."
                   properties:
                     group:
                       description: Group of the resource being referred to.
@@ -1491,13 +1367,13 @@ spec:
                   description: Options to control private keys used for the Certificate.
                   properties:
                     algorithm:
-                      description: "Algorithm is the private key algorithm of the corresponding private key for this certificate. If provided, allowed values are either `RSA` or `ECDSA` If `algorithm` is specified and `size` is not provided, key size of 256 will be used for `ECDSA` key algorithm and key size of 2048 will be used for `RSA` key algorithm."
+                      description: "Algorithm is the private key algorithm of the corresponding private key for this certificate. If provided, allowed values are either \"rsa\" or \"ecdsa\" If `algorithm` is specified and `size` is not provided, key size of 256 will be used for \"ecdsa\" key algorithm and key size of 2048 will be used for \"rsa\" key algorithm."
                       enum:
                         - RSA
                         - ECDSA
                       type: string
                     encoding:
-                      description: "The private key cryptography standards (PKCS) encoding for this certificate's private key to be encoded in. If provided, allowed values are `PKCS1` and `PKCS8` standing for PKCS#1 and PKCS#8, respectively. Defaults to `PKCS1` if not specified."
+                      description: "The private key cryptography standards (PKCS) encoding for this certificate's private key to be encoded in. If provided, allowed values are \"pkcs1\" and \"pkcs8\" standing for PKCS#1 and PKCS#8, respectively. Defaults to PKCS#1 if not specified."
                       enum:
                         - PKCS1
                         - PKCS8
@@ -1507,15 +1383,13 @@ spec:
                       type: string
                     size:
                       description: "Size is the key bit size of the corresponding private key for this certificate. If `algorithm` is set to `RSA`, valid values are `2048`, `4096` or `8192`, and will default to `2048` if not specified. If `algorithm` is set to `ECDSA`, valid values are `256`, `384` or `521`, and will default to `256` if not specified. No other values are allowed."
+                      maximum: 8192
+                      minimum: 0
                       type: integer
                   type: object
                 renewBefore:
                   description: "The amount of time before the currently issued certificate's `notAfter` time that cert-manager will begin to attempt to renew the certificate. If this value is greater than the total duration of the certificate (i.e. notAfter - notBefore), it will be automatically renewed 2/3rds of the way through the certificate's duration."
                   type: string
-                revisionHistoryLimit:
-                  description: "revisionHistoryLimit is the maximum number of CertificateRequest revisions that are maintained in the Certificate's history. Each revision represents a single `CertificateRequest` created by this Certificate, either when it was created, renewed, or Spec was changed. Revisions will be removed by oldest first if the number of revisions exceeds this number. If set, revisionHistoryLimit must be a value of `1` or greater. If unset (`nil`), revisions will not be garbage collected. Default value is `nil`."
-                  format: int32
-                  type: integer
                 secretName:
                   description: "SecretName is the name of the secret resource that will be automatically created and managed by this Certificate resource. It will be populated with a private key and certificate, signed by the denoted issuer."
                   type: string
@@ -1615,22 +1489,18 @@ spec:
                       message:
                         description: "Message is a human readable description of the details of the last transition, complementing reason."
                         type: string
-                      observedGeneration:
-                        description: "If set, this represents the .metadata.generation that the condition was set based upon. For instance, if .metadata.generation is currently 12, but the .status.condition[x].observedGeneration is 9, the condition is out of date with respect to the current state of the Certificate."
-                        format: int64
-                        type: integer
                       reason:
                         description: "Reason is a brief machine readable explanation for the condition's last transition."
                         type: string
                       status:
-                        description: "Status of the condition, one of (`True`, `False`, `Unknown`)."
+                        description: "Status of the condition, one of ('True', 'False', 'Unknown')."
                         enum:
                           - "True"
                           - "False"
                           - Unknown
                         type: string
                       type:
-                        description: "Type of the condition, known values are (`Ready`, `Issuing`)."
+                        description: "Type of the condition, known values are ('Ready', `Issuing`)."
                         type: string
                     required:
                       - status
@@ -1711,7 +1581,7 @@ spec:
                     type: string
                   type: array
                 duration:
-                  description: "The requested 'duration' (i.e. lifetime) of the Certificate. This option may be ignored/overridden by some issuer types. If unset this defaults to 90 days. If overridden and `renewBefore` is greater than the actual certificate duration, the certificate will be automatically renewed 2/3rds of the way through the certificate's duration."
+                  description: "The requested 'duration' (i.e. lifetime) of the Certificate. This option may be ignored/overridden by some issuer types. If overridden and `renewBefore` is greater than the actual certificate duration, the certificate will be automatically renewed 2/3rds of the way through the certificate's duration."
                   type: string
                 emailAddresses:
                   description: EmailAddresses is a list of email subjectAltNames to be set on the Certificate.
@@ -1730,7 +1600,7 @@ spec:
                   description: "IsCA will mark this Certificate as valid for certificate signing. This will automatically add the `cert sign` usage to the list of `usages`."
                   type: boolean
                 issuerRef:
-                  description: "IssuerRef is a reference to the issuer for this certificate. If the `kind` field is not set, or set to `Issuer`, an Issuer resource with the given name in the same namespace as the Certificate will be used. If the `kind` field is set to `ClusterIssuer`, a ClusterIssuer with the provided name will be used. The `name` field in this stanza is required at all times."
+                  description: "IssuerRef is a reference to the issuer for this certificate. If the 'kind' field is not set, or set to 'Issuer', an Issuer resource with the given name in the same namespace as the Certificate will be used. If the 'kind' field is set to 'ClusterIssuer', a ClusterIssuer with the provided name will be used. The 'name' field in this stanza is required at all times."
                   properties:
                     group:
                       description: Group of the resource being referred to.
@@ -1751,7 +1621,7 @@ spec:
                       description: "JKS configures options for storing a JKS keystore in the `spec.secretName` Secret resource."
                       properties:
                         create:
-                          description: "Create enables JKS keystore creation for the Certificate. If true, a file named `keystore.jks` will be created in the target Secret resource, encrypted using the password stored in `passwordSecretRef`. The keystore file will only be updated upon re-issuance. A file named `truststore.jks` will also be created in the target Secret resource, encrypted using the password stored in `passwordSecretRef` containing the issuing Certificate Authority"
+                          description: "Create enables JKS keystore creation for the Certificate. If true, a file named `keystore.jks` will be created in the target Secret resource, encrypted using the password stored in `passwordSecretRef`. The keystore file will only be updated upon re-issuance."
                           type: boolean
                         passwordSecretRef:
                           description: PasswordSecretRef is a reference to a key in a Secret resource containing the password used to encrypt the JKS keystore.
@@ -1773,7 +1643,7 @@ spec:
                       description: "PKCS12 configures options for storing a PKCS12 keystore in the `spec.secretName` Secret resource."
                       properties:
                         create:
-                          description: "Create enables PKCS12 keystore creation for the Certificate. If true, a file named `keystore.p12` will be created in the target Secret resource, encrypted using the password stored in `passwordSecretRef`. The keystore file will only be updated upon re-issuance. A file named `truststore.p12` will also be created in the target Secret resource, encrypted using the password stored in `passwordSecretRef` containing the issuing Certificate Authority"
+                          description: "Create enables PKCS12 keystore creation for the Certificate. If true, a file named `keystore.p12` will be created in the target Secret resource, encrypted using the password stored in `passwordSecretRef`. The keystore file will only be updated upon re-issuance."
                           type: boolean
                         passwordSecretRef:
                           description: PasswordSecretRef is a reference to a key in a Secret resource containing the password used to encrypt the PKCS12 keystore.
@@ -1796,13 +1666,13 @@ spec:
                   description: Options to control private keys used for the Certificate.
                   properties:
                     algorithm:
-                      description: "Algorithm is the private key algorithm of the corresponding private key for this certificate. If provided, allowed values are either `RSA` or `ECDSA` If `algorithm` is specified and `size` is not provided, key size of 256 will be used for `ECDSA` key algorithm and key size of 2048 will be used for `RSA` key algorithm."
+                      description: "Algorithm is the private key algorithm of the corresponding private key for this certificate. If provided, allowed values are either \"rsa\" or \"ecdsa\" If `algorithm` is specified and `size` is not provided, key size of 256 will be used for \"ecdsa\" key algorithm and key size of 2048 will be used for \"rsa\" key algorithm."
                       enum:
                         - RSA
                         - ECDSA
                       type: string
                     encoding:
-                      description: "The private key cryptography standards (PKCS) encoding for this certificate's private key to be encoded in. If provided, allowed values are `PKCS1` and `PKCS8` standing for PKCS#1 and PKCS#8, respectively. Defaults to `PKCS1` if not specified."
+                      description: "The private key cryptography standards (PKCS) encoding for this certificate's private key to be encoded in. If provided, allowed values are \"pkcs1\" and \"pkcs8\" standing for PKCS#1 and PKCS#8, respectively. Defaults to PKCS#1 if not specified."
                       enum:
                         - PKCS1
                         - PKCS8
@@ -1812,15 +1682,13 @@ spec:
                       type: string
                     size:
                       description: "Size is the key bit size of the corresponding private key for this certificate. If `algorithm` is set to `RSA`, valid values are `2048`, `4096` or `8192`, and will default to `2048` if not specified. If `algorithm` is set to `ECDSA`, valid values are `256`, `384` or `521`, and will default to `256` if not specified. No other values are allowed."
+                      maximum: 8192
+                      minimum: 0
                       type: integer
                   type: object
                 renewBefore:
-                  description: "The amount of time before the currently issued certificate's `notAfter` time that cert-manager will begin to attempt to renew the certificate. If unset this defaults to 30 days. If this value is greater than the total duration of the certificate (i.e. notAfter - notBefore), it will be automatically renewed 2/3rds of the way through the certificate's duration."
+                  description: "The amount of time before the currently issued certificate's `notAfter` time that cert-manager will begin to attempt to renew the certificate. If this value is greater than the total duration of the certificate (i.e. notAfter - notBefore), it will be automatically renewed 2/3rds of the way through the certificate's duration."
                   type: string
-                revisionHistoryLimit:
-                  description: "revisionHistoryLimit is the maximum number of CertificateRequest revisions that are maintained in the Certificate's history. Each revision represents a single `CertificateRequest` created by this Certificate, either when it was created, renewed, or Spec was changed. Revisions will be removed by oldest first if the number of revisions exceeds this number. If set, revisionHistoryLimit must be a value of `1` or greater. If unset (`nil`), revisions will not be garbage collected. Default value is `nil`."
-                  format: int32
-                  type: integer
                 secretName:
                   description: "SecretName is the name of the secret resource that will be automatically created and managed by this Certificate resource. It will be populated with a private key and certificate, signed by the denoted issuer."
                   type: string
@@ -1920,22 +1788,18 @@ spec:
                       message:
                         description: "Message is a human readable description of the details of the last transition, complementing reason."
                         type: string
-                      observedGeneration:
-                        description: "If set, this represents the .metadata.generation that the condition was set based upon. For instance, if .metadata.generation is currently 12, but the .status.condition[x].observedGeneration is 9, the condition is out of date with respect to the current state of the Certificate."
-                        format: int64
-                        type: integer
                       reason:
                         description: "Reason is a brief machine readable explanation for the condition's last transition."
                         type: string
                       status:
-                        description: "Status of the condition, one of (`True`, `False`, `Unknown`)."
+                        description: "Status of the condition, one of ('True', 'False', 'Unknown')."
                         enum:
                           - "True"
                           - "False"
                           - Unknown
                         type: string
                       type:
-                        description: "Type of the condition, known values are (`Ready`, `Issuing`)."
+                        description: "Type of the condition, known values are ('Ready', `Issuing`)."
                         type: string
                     required:
                       - status
@@ -2003,9 +1867,6 @@ spec:
         - v1beta1
   group: acme.cert-manager.io
   names:
-    categories:
-      - cert-manager
-      - cert-manager-acme
     kind: Challenge
     listKind: ChallengeList
     plural: challenges
@@ -5345,8 +5206,6 @@ spec:
         - v1beta1
   group: cert-manager.io
   names:
-    categories:
-      - cert-manager
     kind: ClusterIssuer
     listKind: ClusterIssuerList
     plural: clusterissuers
@@ -6176,11 +6035,6 @@ spec:
                       items:
                         type: string
                       type: array
-                    ocspServers:
-                      description: "The OCSP server list is an X.509 v3 extension that defines a list of URLs of OCSP responders. The OCSP responders can be queried for the revocation status of an issued certificate. If not set, the certificate will be issued with no OCSP servers set. For example, an OCSP server URL could be \"http://ocsp.int-x3.letsencrypt.org\"."
-                      items:
-                        type: string
-                      type: array
                     secretName:
                       description: SecretName is the name of the secret used to sign Certificates issued by this Issuer.
                       type: string
@@ -6363,22 +6217,18 @@ spec:
                       message:
                         description: "Message is a human readable description of the details of the last transition, complementing reason."
                         type: string
-                      observedGeneration:
-                        description: "If set, this represents the .metadata.generation that the condition was set based upon. For instance, if .metadata.generation is currently 12, but the .status.condition[x].observedGeneration is 9, the condition is out of date with respect to the current state of the Issuer."
-                        format: int64
-                        type: integer
                       reason:
                         description: "Reason is a brief machine readable explanation for the condition's last transition."
                         type: string
                       status:
-                        description: "Status of the condition, one of (`True`, `False`, `Unknown`)."
+                        description: "Status of the condition, one of ('True', 'False', 'Unknown')."
                         enum:
                           - "True"
                           - "False"
                           - Unknown
                         type: string
                       type:
-                        description: "Type of the condition, known values are (`Ready`)."
+                        description: "Type of the condition, known values are ('Ready')."
                         type: string
                     required:
                       - status
@@ -7214,11 +7064,6 @@ spec:
                       items:
                         type: string
                       type: array
-                    ocspServers:
-                      description: "The OCSP server list is an X.509 v3 extension that defines a list of URLs of OCSP responders. The OCSP responders can be queried for the revocation status of an issued certificate. If not set, the certificate will be issued with no OCSP servers set. For example, an OCSP server URL could be \"http://ocsp.int-x3.letsencrypt.org\"."
-                      items:
-                        type: string
-                      type: array
                     secretName:
                       description: SecretName is the name of the secret used to sign Certificates issued by this Issuer.
                       type: string
@@ -7401,22 +7246,18 @@ spec:
                       message:
                         description: "Message is a human readable description of the details of the last transition, complementing reason."
                         type: string
-                      observedGeneration:
-                        description: "If set, this represents the .metadata.generation that the condition was set based upon. For instance, if .metadata.generation is currently 12, but the .status.condition[x].observedGeneration is 9, the condition is out of date with respect to the current state of the Issuer."
-                        format: int64
-                        type: integer
                       reason:
                         description: "Reason is a brief machine readable explanation for the condition's last transition."
                         type: string
                       status:
-                        description: "Status of the condition, one of (`True`, `False`, `Unknown`)."
+                        description: "Status of the condition, one of ('True', 'False', 'Unknown')."
                         enum:
                           - "True"
                           - "False"
                           - Unknown
                         type: string
                       type:
-                        description: "Type of the condition, known values are (`Ready`)."
+                        description: "Type of the condition, known values are ('Ready')."
                         type: string
                     required:
                       - status
@@ -8252,11 +8093,6 @@ spec:
                       items:
                         type: string
                       type: array
-                    ocspServers:
-                      description: "The OCSP server list is an X.509 v3 extension that defines a list of URLs of OCSP responders. The OCSP responders can be queried for the revocation status of an issued certificate. If not set, the certificate will be issued with no OCSP servers set. For example, an OCSP server URL could be \"http://ocsp.int-x3.letsencrypt.org\"."
-                      items:
-                        type: string
-                      type: array
                     secretName:
                       description: SecretName is the name of the secret used to sign Certificates issued by this Issuer.
                       type: string
@@ -8439,22 +8275,18 @@ spec:
                       message:
                         description: "Message is a human readable description of the details of the last transition, complementing reason."
                         type: string
-                      observedGeneration:
-                        description: "If set, this represents the .metadata.generation that the condition was set based upon. For instance, if .metadata.generation is currently 12, but the .status.condition[x].observedGeneration is 9, the condition is out of date with respect to the current state of the Issuer."
-                        format: int64
-                        type: integer
                       reason:
                         description: "Reason is a brief machine readable explanation for the condition's last transition."
                         type: string
                       status:
-                        description: "Status of the condition, one of (`True`, `False`, `Unknown`)."
+                        description: "Status of the condition, one of ('True', 'False', 'Unknown')."
                         enum:
                           - "True"
                           - "False"
                           - Unknown
                         type: string
                       type:
-                        description: "Type of the condition, known values are (`Ready`)."
+                        description: "Type of the condition, known values are ('Ready')."
                         type: string
                     required:
                       - status
@@ -9292,11 +9124,6 @@ spec:
                       items:
                         type: string
                       type: array
-                    ocspServers:
-                      description: "The OCSP server list is an X.509 v3 extension that defines a list of URLs of OCSP responders. The OCSP responders can be queried for the revocation status of an issued certificate. If not set, the certificate will be issued with no OCSP servers set. For example, an OCSP server URL could be \"http://ocsp.int-x3.letsencrypt.org\"."
-                      items:
-                        type: string
-                      type: array
                     secretName:
                       description: SecretName is the name of the secret used to sign Certificates issued by this Issuer.
                       type: string
@@ -9479,22 +9306,18 @@ spec:
                       message:
                         description: "Message is a human readable description of the details of the last transition, complementing reason."
                         type: string
-                      observedGeneration:
-                        description: "If set, this represents the .metadata.generation that the condition was set based upon. For instance, if .metadata.generation is currently 12, but the .status.condition[x].observedGeneration is 9, the condition is out of date with respect to the current state of the Issuer."
-                        format: int64
-                        type: integer
                       reason:
                         description: "Reason is a brief machine readable explanation for the condition's last transition."
                         type: string
                       status:
-                        description: "Status of the condition, one of (`True`, `False`, `Unknown`)."
+                        description: "Status of the condition, one of ('True', 'False', 'Unknown')."
                         enum:
                           - "True"
                           - "False"
                           - Unknown
                         type: string
                       type:
-                        description: "Type of the condition, known values are (`Ready`)."
+                        description: "Type of the condition, known values are ('Ready')."
                         type: string
                     required:
                       - status
@@ -9540,8 +9363,6 @@ spec:
         - v1beta1
   group: cert-manager.io
   names:
-    categories:
-      - cert-manager
     kind: Issuer
     listKind: IssuerList
     plural: issuers
@@ -10371,11 +10192,6 @@ spec:
                       items:
                         type: string
                       type: array
-                    ocspServers:
-                      description: "The OCSP server list is an X.509 v3 extension that defines a list of URLs of OCSP responders. The OCSP responders can be queried for the revocation status of an issued certificate. If not set, the certificate will be issued with no OCSP servers set. For example, an OCSP server URL could be \"http://ocsp.int-x3.letsencrypt.org\"."
-                      items:
-                        type: string
-                      type: array
                     secretName:
                       description: SecretName is the name of the secret used to sign Certificates issued by this Issuer.
                       type: string
@@ -10558,22 +10374,18 @@ spec:
                       message:
                         description: "Message is a human readable description of the details of the last transition, complementing reason."
                         type: string
-                      observedGeneration:
-                        description: "If set, this represents the .metadata.generation that the condition was set based upon. For instance, if .metadata.generation is currently 12, but the .status.condition[x].observedGeneration is 9, the condition is out of date with respect to the current state of the Issuer."
-                        format: int64
-                        type: integer
                       reason:
                         description: "Reason is a brief machine readable explanation for the condition's last transition."
                         type: string
                       status:
-                        description: "Status of the condition, one of (`True`, `False`, `Unknown`)."
+                        description: "Status of the condition, one of ('True', 'False', 'Unknown')."
                         enum:
                           - "True"
                           - "False"
                           - Unknown
                         type: string
                       type:
-                        description: "Type of the condition, known values are (`Ready`)."
+                        description: "Type of the condition, known values are ('Ready')."
                         type: string
                     required:
                       - status
@@ -11409,11 +11221,6 @@ spec:
                       items:
                         type: string
                       type: array
-                    ocspServers:
-                      description: "The OCSP server list is an X.509 v3 extension that defines a list of URLs of OCSP responders. The OCSP responders can be queried for the revocation status of an issued certificate. If not set, the certificate will be issued with no OCSP servers set. For example, an OCSP server URL could be \"http://ocsp.int-x3.letsencrypt.org\"."
-                      items:
-                        type: string
-                      type: array
                     secretName:
                       description: SecretName is the name of the secret used to sign Certificates issued by this Issuer.
                       type: string
@@ -11596,22 +11403,18 @@ spec:
                       message:
                         description: "Message is a human readable description of the details of the last transition, complementing reason."
                         type: string
-                      observedGeneration:
-                        description: "If set, this represents the .metadata.generation that the condition was set based upon. For instance, if .metadata.generation is currently 12, but the .status.condition[x].observedGeneration is 9, the condition is out of date with respect to the current state of the Issuer."
-                        format: int64
-                        type: integer
                       reason:
                         description: "Reason is a brief machine readable explanation for the condition's last transition."
                         type: string
                       status:
-                        description: "Status of the condition, one of (`True`, `False`, `Unknown`)."
+                        description: "Status of the condition, one of ('True', 'False', 'Unknown')."
                         enum:
                           - "True"
                           - "False"
                           - Unknown
                         type: string
                       type:
-                        description: "Type of the condition, known values are (`Ready`)."
+                        description: "Type of the condition, known values are ('Ready')."
                         type: string
                     required:
                       - status
@@ -12447,11 +12250,6 @@ spec:
                       items:
                         type: string
                       type: array
-                    ocspServers:
-                      description: "The OCSP server list is an X.509 v3 extension that defines a list of URLs of OCSP responders. The OCSP responders can be queried for the revocation status of an issued certificate. If not set, the certificate will be issued with no OCSP servers set. For example, an OCSP server URL could be \"http://ocsp.int-x3.letsencrypt.org\"."
-                      items:
-                        type: string
-                      type: array
                     secretName:
                       description: SecretName is the name of the secret used to sign Certificates issued by this Issuer.
                       type: string
@@ -12634,22 +12432,18 @@ spec:
                       message:
                         description: "Message is a human readable description of the details of the last transition, complementing reason."
                         type: string
-                      observedGeneration:
-                        description: "If set, this represents the .metadata.generation that the condition was set based upon. For instance, if .metadata.generation is currently 12, but the .status.condition[x].observedGeneration is 9, the condition is out of date with respect to the current state of the Issuer."
-                        format: int64
-                        type: integer
                       reason:
                         description: "Reason is a brief machine readable explanation for the condition's last transition."
                         type: string
                       status:
-                        description: "Status of the condition, one of (`True`, `False`, `Unknown`)."
+                        description: "Status of the condition, one of ('True', 'False', 'Unknown')."
                         enum:
                           - "True"
                           - "False"
                           - Unknown
                         type: string
                       type:
-                        description: "Type of the condition, known values are (`Ready`)."
+                        description: "Type of the condition, known values are ('Ready')."
                         type: string
                     required:
                       - status
@@ -13487,11 +13281,6 @@ spec:
                       items:
                         type: string
                       type: array
-                    ocspServers:
-                      description: "The OCSP server list is an X.509 v3 extension that defines a list of URLs of OCSP responders. The OCSP responders can be queried for the revocation status of an issued certificate. If not set, the certificate will be issued with no OCSP servers set. For example, an OCSP server URL could be \"http://ocsp.int-x3.letsencrypt.org\"."
-                      items:
-                        type: string
-                      type: array
                     secretName:
                       description: SecretName is the name of the secret used to sign Certificates issued by this Issuer.
                       type: string
@@ -13674,22 +13463,18 @@ spec:
                       message:
                         description: "Message is a human readable description of the details of the last transition, complementing reason."
                         type: string
-                      observedGeneration:
-                        description: "If set, this represents the .metadata.generation that the condition was set based upon. For instance, if .metadata.generation is currently 12, but the .status.condition[x].observedGeneration is 9, the condition is out of date with respect to the current state of the Issuer."
-                        format: int64
-                        type: integer
                       reason:
                         description: "Reason is a brief machine readable explanation for the condition's last transition."
                         type: string
                       status:
-                        description: "Status of the condition, one of (`True`, `False`, `Unknown`)."
+                        description: "Status of the condition, one of ('True', 'False', 'Unknown')."
                         enum:
                           - "True"
                           - "False"
                           - Unknown
                         type: string
                       type:
-                        description: "Type of the condition, known values are (`Ready`)."
+                        description: "Type of the condition, known values are ('Ready')."
                         type: string
                     required:
                       - status
@@ -13735,9 +13520,6 @@ spec:
         - v1beta1
   group: acme.cert-manager.io
   names:
-    categories:
-      - cert-manager
-      - cert-manager-acme
     kind: Order
     listKind: OrderList
     plural: orders
