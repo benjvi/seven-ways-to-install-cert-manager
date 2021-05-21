@@ -14,3 +14,16 @@ For each approach to packaging, we will be interested in (and possibly evaluatin
 - Allowing package authors to give users safe ways to parameterize the software
 - Allowing users to customize the software in ways not foreseen by the package authors
 - Giving users insight into the content of what will be deployed - the version increment, manifest changeset, etc
+
+## Dependencies
+
+For the purposes of following along with the steps here, we assume that you have: 
+- A Tanzu Kubernetes cluster with the latest (alpha) version of `kapp-controller` installed
+- Carvel tools installed, as well as `kubectl`,`helm`,`kustomize` and `yq`
+
+## Why Cert Manager?
+
+Some Kubernetes packages are simpler than others. Cert Manager is a package that is not *too complicated*, and extremely widely used, but has some interesting / challenging features as an installable package:
+- It heavily uses CRDs, which are (a) extremely verbose (b) *manifests* of little relevance to package consumers (c) can cause dependency issues during deployment
+- It also uses `mutatingwebhookconfigurations` and `validatingwebhookconfigurations` which can also cause deployment issues
+- It's not natively designed / maintained to fit in with the packaging approach used in Tanzu
