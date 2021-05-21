@@ -1,7 +1,7 @@
 
 # What
 
-Until now, we only looked at installing specific versions of a package. However, typically, we want to define some sort of process for regularly applying security and product updates. This can be done manually, but generally works better when automated. Although Tanzu packages don't suggest an automated upgrade workflow at the time of writing, the capabilities are already present in the `kapp-controller`, and we will see what possibilities they offer.
+Until now, we only looked at installing specific versions of a package. However, typically, we want to define some sort of process for regularly applying security and product updates. This can be done manually, but generally works better when automated. Although Tanzu packages don't suggest an automated upgrade workflow at the time of writing, the capabilities are already present in the `kapp-controller`, and we will see what possibilities they offer. 
 
 
 # Option A : `InstalledPackage` version constraints (less safe) 
