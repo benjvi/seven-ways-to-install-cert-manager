@@ -1,10 +1,10 @@
 
 # What
 
-Until now, we only looked at installing specific versions of a package. However, typically, we want to define some sort of process for regularly applying security and product updates. This can work manually, but generally works better when automated. Although tanzu packages don't suggest an automated upgrade workflow at the time of writing, the capabilities are already present in the `kapp-controller`, and we will see how they can be used.
+Until now, we only looked at installing specific versions of a package. However, typically, we want to define some sort of process for regularly applying security and product updates. This can be done manually, but generally works better when automated. Although Tanzu packages don't suggest an automated upgrade workflow at the time of writing, the capabilities are already present in the `kapp-controller`, and we will see what possibilities they offer.
 
 
-# Option A : `InstalledPackage` version constraints (less safe)
+# Option A : `InstalledPackage` version constraints (less safe) 
 
 ## How
 
@@ -24,7 +24,7 @@ In this way, its possible to tell a cluster to stay on the latest version of a c
 
 However, there is some residual risk to setting version ranges to be evaluated at install-time. In rare cases, even security patches can cause regressions. For this reason, many teams prefer to update versions of components in a test environment first, then "promote" the resolved (fixed) version through to staging and production environments. 
 
-# Option B : Templated package versions 
+# Option B : Templated package versions (more safe)
 
 ## How
 
