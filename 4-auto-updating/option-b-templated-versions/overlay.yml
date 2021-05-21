@@ -1,0 +1,9 @@
+#@ load("@ytt:overlay", "overlay")
+#@ load("@ytt:data", "data")
+#@overlay/match by=overlay.subset({"kind":"InstalledPackage","metadata":{"name":"cert-manager.tce.vmware.com"}})
+---
+spec:
+  packageRef:
+    versionSelection:
+      constraints: #@ data.values.package_version
+      prereleases: {}

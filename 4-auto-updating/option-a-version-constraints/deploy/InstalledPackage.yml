@@ -1,0 +1,16 @@
+---
+apiVersion: install.package.carvel.dev/v1alpha1
+kind: InstalledPackage
+metadata:
+  name: cert-manager.tce.vmware.com
+  namespace: default
+spec:
+  packageRef:
+    publicName: cert-manager.tce.vmware.com
+    versionSelection:
+      constraints: ">= 1.1.0-vmware0"
+      prereleases: {}
+  serviceAccountName: cert-manager.tce.vmware.com-extension-sa
+  values:
+    - secretRef:
+        name: cert-manager.tce.vmware.com-config
