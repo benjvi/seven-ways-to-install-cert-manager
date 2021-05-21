@@ -1,0 +1,16 @@
+#@ load("@ytt:overlay", "overlay")
+
+#@overlay/match by=overlay.subset({"kind":"App"}),expects=1
+---
+spec:
+  template:
+   #@overlay/append
+   - ytt:
+       ignoreUnknownComments: true
+       inline:
+         pathsFrom:
+           - configMapRef:
+               name: cert-manager-app-custom-ytt-overlay
+       paths:
+         - '-'
+

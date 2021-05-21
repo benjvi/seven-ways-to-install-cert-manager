@@ -1,0 +1,40 @@
+apiVersion: kappctrl.k14s.io/v1alpha1
+kind: App
+metadata:
+  annotations: {}
+  deletionGracePeriodSeconds: 0
+  deletionTimestamp: "2021-05-21T15:50:35Z"
+  finalizers:
+  - finalizers.kapp-ctrl.k14s.io/delete
+  name: cert-manager.tce.vmware.com
+  namespace: default
+spec:
+  deploy:
+  - kapp:
+      rawOptions:
+      - --wait-timeout=5m
+  fetch:
+  - imgpkgBundle:
+      image: projects.registry.vmware.com/tce/cert-manager@sha256:488ec6fe8f93b0b001ab02202c6e209ca65b90a3a01cdaf604daffad85db67aa
+  serviceAccountName: cert-manager.tce.vmware.com-extension-sa
+  template:
+  - ytt:
+      ignoreUnknownComments: true
+      inline:
+        pathsFrom:
+        - secretRef:
+            name: cert-manager.tce.vmware.com-config
+      paths:
+      - config/
+  - kbld:
+      paths:
+      - '-'
+      - .imgpkg/images.yml
+  - ytt:
+      ignoreUnknownComments: true
+      inline:
+        pathsFrom:
+        - configMapRef:
+            name: cert-manager-app-custom-ytt-overlay
+      paths:
+      - '-'
