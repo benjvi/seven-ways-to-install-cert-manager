@@ -45,4 +45,4 @@ Once we have the updated `InstalledPackage` manifest we can then promote it thro
 
 So, this is way more work than the first versions, because now we would need to continuously deploy the package definitions through an automated delivery pipeline. However, we benefit from having absolute control over the software versions we deploy across our estate of clusters. We will always get exactly the version we want in the places we want it. Ultimately, to get this level of control, you cannot avoid the need to define a delivery pipeline to do so. 
 
-However, there is another area we can look into to control the packages available is the `PackageRepository`. This won't give control over the packages at the destination, but instead, at the source. We'll look into this next.
+However, there is another area we can look into to control the packages available - the `PackageRepository`. This won't give control over the packages at the destination, but instead, at the source. We'll look into this next.
