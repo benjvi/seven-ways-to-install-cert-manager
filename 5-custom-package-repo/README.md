@@ -50,7 +50,7 @@ Finally, we can create this `PackageRepository` from the `offline-package-repo.y
 
 ## Deploying
 
-With a `PackageRepository` available, we can now deploy in exactly the same way as we deployed Tanzu packages in previous steps.
+With a `PackageRepository` available, we can now deploy in exactly the same way as we deployed Tanzu packages in previous sections.
 
 # Why
 
