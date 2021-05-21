@@ -7,6 +7,8 @@ So far, we looked at downloading manifests and helm charts directly. However, in
 
 Right now, the packages are intended to be installed through the `tanzu` CLI. However, this just a thin facade used to create and apply Kubernetes objects - in particular the `PackageRepository` and `InstalledPackage` kapp-controller CRDs. 
 
+Should you be checking in these resources to Git, using that as a source of truth rather than the Kubernetes API? Possibly. In general, version-control of system configuration has been a big win for our industry. Although, in simple cases, this configuration may not benefit from version-control as much as others do.
+
 ## 1. Repo
 
 To connect the kubernetes cluster to the Tanzu package repository, you would run:
