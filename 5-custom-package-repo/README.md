@@ -37,7 +37,7 @@ As before, we create another `PackageRepository` manifest, in `custom-package-re
 
 ## Offline / Air-Gapped
 
-If we are relocating the images into a Docker repository that is available in an air-gapped environment, we have to be aware that the packages are still in the public repo, and therefore any package installation will fail. We need to perform an additional step to relocate them into our private repo. In this case, we can use `kbld` :
+If we are relocating the images into a Docker repository that is available in an air-gapped environment, we have to be aware that the packages are still in the public repo, and therefore any offline package installation will fail. We need to perform an additional step to relocate them into our private repo. In this case, we can use `kbld` :
 
 ```
 mkdir -p offline-deploy/packages
