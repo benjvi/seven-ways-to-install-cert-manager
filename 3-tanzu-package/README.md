@@ -1,11 +1,11 @@
 
 # What
 
-So far, we looked at downloading manifests and helm charts directly. However, in cases where you really don't have any opinion on the implementation of a package, you can just tell the cluster to directly install a particular version of a package. This is possible with helm charts and manifests, but we will look at how this can be done using kapp-controller to install `Tanzu packages`, which are based on the imgpkg format.
+So far, we looked at downloading manifests and helm charts directly. However, in cases where you really don't have any opinion on the implementation of a package, you can just tell the cluster to directly install a particular version of a package. This is possible with helm charts and manifests, but we will look at how this can be done using kapp-controller to install Tanzu packages, which are based on the imgpkg format.
 
 # How
 
-Right now, the packages are intended to be installed through the `tanzu` CLI. However, this just a thin facade used to create and apply Kubernetes objects - in particular the `PackageRepository` and `InstalledPackage` kapp-controller CRDs. 
+Right now, the packages are intended to be installed through the `tanzu` CLI. However, this just a thin facade used to create and apply Kubernetes objects - in particular the `PackageRepository` and `InstalledPackage` kapp-controller CRDs. These objects can be used directly to control package installation. 
 
 Should you be checking in these resources to Git, using that as a source of truth rather than the Kubernetes API? Possibly. In general, version-control of system configuration has been a big win for our industry. Although, in simple cases, this configuration may not benefit from version-control as much as others do.
 
@@ -43,6 +43,6 @@ In this case, we used the package config to specify a custom namespace to deploy
 
 ## Cons
 
-- Very minimal ability to customize packages (by design)
+- Very minimal ability to customize packages
 - Minimal visibility of what will be installed 
 - More complex to get working with a GitOps workflow
