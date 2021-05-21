@@ -1,0 +1,8 @@
+apiVersion: vendir.k14s.io/v1alpha1
+directories:
+- contents:
+  - imgpkgBundle:
+      image: projects.registry.vmware.com/tce/cert-manager@sha256:488ec6fe8f93b0b001ab02202c6e209ca65b90a3a01cdaf604daffad85db67aa
+    path: .
+  path: vendor
+kind: LockConfig
