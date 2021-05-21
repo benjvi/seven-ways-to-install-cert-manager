@@ -1,0 +1,53 @@
+apiVersion: package.carvel.dev/v1alpha1
+kind: Package
+metadata:
+  name: cert-manager.tce.vmware.com.1.1.0-vmware0
+spec:
+  publicName: cert-manager.tce.vmware.com
+  version: 1.1.0-vmware0
+  description: This package provides certificate management functionality.
+  template:
+    spec:
+      fetch:
+        - imgpkgBundle:
+            image: projects.registry.vmware.com/tce/cert-manager@sha256:488ec6fe8f93b0b001ab02202c6e209ca65b90a3a01cdaf604daffad85db67aa
+      template:
+        - ytt:
+            ignoreUnknownComments: true
+            paths:
+              - config/
+        - kbld:
+            paths:
+              - '-'
+              - .imgpkg/images.yml
+      deploy:
+        - kapp:
+            rawOptions:
+              - --wait-timeout=5m
+---
+apiVersion: package.carvel.dev/v1alpha1
+kind: Package
+metadata:
+  name: velero.tce.vmware.com.1.5.2-vmware0
+spec:
+  publicName: velero.tce.vmware.com
+  version: 1.5.2-vmware0
+  description: This package provides disaster recovery capabilities.
+  template:
+    spec:
+      fetch:
+        - imgpkgBundle:
+            image: projects.registry.vmware.com/tce/velero@sha256:31e9ba348815809540bec24c8eabfe04bc89f330c1e4da7da793e969f66d01cf
+      template:
+        - ytt:
+            ignoreUnknownComments: true
+            paths:
+              - config/
+        - kbld:
+            paths:
+              - '-'
+              - .imgpkg/images.yml
+      deploy:
+        - kapp:
+            rawOptions:
+              - --wait-timeout=5m

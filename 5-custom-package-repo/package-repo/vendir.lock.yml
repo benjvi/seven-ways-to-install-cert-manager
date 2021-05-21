@@ -1,0 +1,8 @@
+apiVersion: vendir.k14s.io/v1alpha1
+directories:
+- contents:
+  - image:
+      url: projects.registry.vmware.com/tce/main@sha256:f9bca33c41f7220e386e8d116d92b7c56770e5412d24d290ec6302f8c820a926
+    path: .
+  path: vendor
+kind: LockConfig
