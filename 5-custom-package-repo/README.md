@@ -46,7 +46,7 @@ kbld relocate -f deploy/packages/packages.yaml --repository docker.io/benjvi/cus
 Then publish the repository:
 `imgpkg push -i benjvi/offline-package-repo:stable -f offline-deploy`
 
-And we can create this `PackageRepository` from the `offline-package-repo.yml` manifest.
+Finally, we can create this `PackageRepository` from the `offline-package-repo.yml` manifest.
 
 ## Deploying
 
