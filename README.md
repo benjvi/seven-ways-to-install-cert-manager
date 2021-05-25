@@ -17,9 +17,10 @@ For each approach to packaging, we will be interested in (and possibly evaluatin
 
 ## Dependencies
 
-For the purposes of following along with the steps here, we assume that you have: 
+To follow along with the steps in each section, you need: 
 - A Tanzu Kubernetes cluster with the latest (alpha) version of `kapp-controller` installed
 - Carvel tools installed, as well as `kubectl`,`helm`,`kustomize` and `yq`
+- [`yshard`](https://github.com/benjvi/yshard), which is used to split manifest files to make them easier to inspect
 
 ## Why Cert Manager?
 
