@@ -1,9 +1,7 @@
 
-# In progress
-
 # What
 
-In addition to the `InstalledPackage` resource we looked at earlier, `kapp-controller` can also manage `App` resources. This is a lower-level resource - when you create an `InstalledPackage` then an `App` is created under the hood. The App object does not know anything about versions like `InstalledPackages` do - it is concerned with the details of how to fetch some manifests and how to template them before applying, which it does as part of a continuous reconciliation loop. In short, its a flexible object useful in GitOps-style deployment workflows. We will look at how `App` objects can be used instead of `InstalledPackage`, to install a package with (more or less) arbitrary customizations.
+In addition to the `InstalledPackage` resource we looked at earlier, `kapp-controller` can also manage `App` resources. This is a lower-level resource - when you create an `InstalledPackage` then an `App` is created under the hood. The `App` object does not know anything about versions like `InstalledPackages` do - it is concerned with the details of how to fetch some manifests and how to template them before applying, which it does as part of a continuous reconciliation loop. In short, its a flexible object useful in GitOps-style deployment workflows. We will look at how `App` objects can be used instead of `InstalledPackage`, to install a package with (more or less) arbitrary customizations.
 
 # How
 
@@ -26,9 +24,9 @@ The step will look something like this:
 
 Because rendering has already taken place, we must tell `ytt` to include '-' (STDIN) as part of its paths to template.
 
-So we need to add this to our existing App definition, which we will (rather confusingly) do with `ytt`.
+So we need to add this to our existing `App` definition, which we will (rather confusingly) also do with a `ytt` overlay - from file `app-overlay-add-ytt-step.yml`.
 
-So, we have an extra step which will be invoked by `kapp-controller`. But now we need to pass the overlay file as a `ConfigMap`. We will generate the `ConfigMap` manifest imperatively before applying it with `ytt`.
+So, we have an extra step which will be invoked by `kapp-controller`. But now we need to pass the overlay file as a `ConfigMap`. We generate the `ConfigMap` manifest imperatively.
 
 Look into `./generate-deployable.sh` to see all the steps combined, and run it to regenerate the `deploy` folder.
 
@@ -38,4 +36,13 @@ After creating the app with `kubectl apply -f deploy/`, you will be able to see 
 
 ## Pros
 
+- Unlimited customizability - ytt can modify any field on any resource in the package manifests 
+- It's clear what parameters are exposed by the package and which are customizations made by the package consumer
+- Customization process (generally) works for upgrading packages as well as on initial install 
+
 ## Cons
+
+- Complexity -> the process we went through is somewhat complex, and needs to be performed on every package update
+- Certain customizations could be broken on package updates
+- Templating tools other than `ytt` and `helm` are not supported
+- Difficult to determine what (some) of the templated modifications do without access to the manifests in the package
