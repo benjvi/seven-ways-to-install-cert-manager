@@ -1,0 +1,19 @@
+apiVersion: kappctrl.k14s.io/v1alpha1
+kind: App
+metadata:
+  name: cert-manager-tanzu-package-gitops
+  namespace: default
+spec:
+  serviceAccountName: cert-manager-tanzu-package-gitops
+  fetch:
+  - git:
+      url: git@github.com:benjvi/seven-ways-to-install-cert-manager.git
+      ref: origin/main
+      subPath: 7-customized-tanzu-package-gitops/deploy-continuous
+      secretRef:
+        # manually created secret
+        name: customized-tanzu-package-gitops-deploy-key
+  template:
+  - ytt: {}
+  deploy:
+  - kapp: {}
