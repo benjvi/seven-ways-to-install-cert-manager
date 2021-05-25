@@ -34,11 +34,23 @@ Since my git repo, is private, I need to create a secret for the `App` to access
 
 Then, the contents of the `deploy-once` folder, including a [manually written](https://carvel.dev/kapp-controller/docs/latest/app-spec/) `App`, can be created: `kubectl apply -f deploy-once` 
 
+Now, `kapp-controller` will reconcile the app, as before and cert-manager will be deployed. In future, any changes to the `deploy-continuous` folder will also get deployed within a few seconds.
+
+## Templating 
+
+Although we fully rendered the templates here before checking them into `deploy-continuous`, it is possible also to pass templates to `kapp-controller` and for rendering to be done by the controller, as we did in section `6-customized-tanzu-package`. By doing that, we trade off the ability to do static checks of the rendered config before deployment against the convenience of having `kapp-controller` do eveything needed for updates.
 
 # Why
 
 ## Pros
 
+- Able to customize manifests in any way desired
+- Package manifest updates are more observable, can see how changes might impact customizations
+- Can run standard tooling to validate Kubernetes manifests, before deployment
+- Still retain some clarity about what parameters are supported by the package, and what our customizations are
+- Still have control over versions being deployed
+
 ## Cons
 
 - Complex update process, a CI process to fetch and render manifests is needed in addition to the work `kapp-controller` does to continously deploy the apps
+- More possibilities to change manifests in unmaintainable ways, e.g. manually updating the `deploy-continuous` folder rather than regenerating it with `ytt`
