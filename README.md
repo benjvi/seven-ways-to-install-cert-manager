@@ -28,3 +28,9 @@ Some Kubernetes packages are simpler than others. Cert Manager is a package that
 - It heavily uses CRDs, which are (a) extremely verbose (b) *manifests* of little relevance to package consumers (c) can cause dependency issues during deployment
 - It also uses `mutatingwebhookconfigurations` and `validatingwebhookconfigurations` which can also cause deployment issues
 - It's not natively designed / maintained to fit in with the packaging approach used in Tanzu
+
+## Testing
+
+When you install stuff, you should always test it works before declaring success. I include two sample manifests `certmanager-clusterissuer.yml` and `certmanager-cert.yml` that can be used to generate a certificate. The `certmanager-clusterissuer.yml` in this case just generates self-signed certificates, so there's no dependencies. After running `kubectl apply -f certmanager-clusterissuer.yml` and `kubectl apply -f certmanager-cert.yml`, running `kubectl get certs` should show you a certificate `test-cert-manager-certificate` with `READY` set to `True`.
+
+You may want to perform this validation for each method of installation.
