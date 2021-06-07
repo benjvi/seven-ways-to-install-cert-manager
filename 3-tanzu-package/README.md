@@ -31,7 +31,7 @@ To install a package the normal way, you run:
 
 This always generates an `InstalledPackage` and a `ServiceAccount`. Because we specified `--config` a `Secret` is generated too. So, we can use this `tanzu package install` command to generate manifests that we can apply in a GitOps workflow. `generate-deploy.sh` shows how to do this. 
 
-In this case, we used the package config to specify a custom namespace to deploy into.
+In this case, we used the package config to specify a custom namespace to deploy into. As per [this slack thread](https://vmware.slack.com/archives/C01BJMUJK19/p1621605114154400) the namespace needs to be set to "cert-manager" otherwise the installed package won't work.
 
 # Why
 
