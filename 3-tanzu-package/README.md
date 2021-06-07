@@ -29,7 +29,7 @@ To install a package the normal way, you run:
 
 `tanzu package install cert-manager.tce.vmware.com --config cert-manager.tce.vmware.com-values.yaml --namespace default`
 
-This always generates an `InstalledPackage` and a `ServiceAccount`. Because we specified `--config` a `Secret` is generated two. So, we can use this `tanzu package install` command to generate manifests that we can apply in a GitOps workflow. `generate-deploy.sh` shows how to do this. 
+This always generates an `InstalledPackage` and a `ServiceAccount`. Because we specified `--config` a `Secret` is generated too. So, we can use this `tanzu package install` command to generate manifests that we can apply in a GitOps workflow. `generate-deploy.sh` shows how to do this. 
 
 In this case, we used the package config to specify a custom namespace to deploy into.
 
