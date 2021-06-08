@@ -33,7 +33,7 @@ Instead of delegating the upgrade process to kapp-controller, we can query for t
 
 For a simple way to get the latest package version, we can rely on sort's semver parsing, with:
 
-`LATEST_PKG_VERSION=$(k get packages -o json | jq -r '.items[].spec | select(.publicName == "cert-manager.tce.vmware.com") | .version' | gsort -V | tail -n 1)`
+`LATEST_PKG_VERSION=$(kubectl get packages -o json | jq -r '.items[].spec | select(.publicName == "cert-manager.tce.vmware.com") | .version' | gsort -V | tail -n 1)`
 
 Note - the interfaces around package versioning are still undergoing changes, so as with everything here, this command too may be subject to change.
 
