@@ -35,7 +35,7 @@ Now the package repository is ready. We can push it to the new location with `im
 
 As before, we create another `PackageRepository` manifest, in `custom-package-repo.yml`. After applying -`kubectl apply -f custom-package-repo.yml` - querying the packages with `kubectl get packages` will show only the two selected packages available in the cluster.
 
-## Offline / Air-Gapped
+## Offline / Air-Gapped Packages
 
 If we are relocating the images into a Docker repository that is available in an air-gapped environment, we have to be aware that the packages are still in the public repo, and therefore any offline package installation will fail. We need to perform an additional step to relocate them into our private repo. In this case, we can use `kbld` :
 
