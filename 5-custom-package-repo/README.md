@@ -13,7 +13,7 @@ First, you can just move the entire package repository to a location you control
 
 Then you can update the URL in the `PackageRepository` ( in file `tce-package-repo.yml` ) to match the new repository location. Since its a simple change, even using `kustomize` is not necessary, and we just create a new manifest `relocated-package-repo.yml`.
 
-Unfortunately, `kbld` does not find the image reference in the YAML file in this case, in other cases it can perform all the previous steps for you automatically based on the image references in the kubernetes manifests.
+\[ Note - unfortunately, `kbld` does not find the image reference in the YAML file in this case. In other cases it can perform all the previous steps for you automatically based on the image references in the kubernetes manifests, which is a more convenient way to rewrite image references. \]
 
 Installing the repository, this works, and we can install packages, but so far there is no benefit to using this over the regular repo.
 
