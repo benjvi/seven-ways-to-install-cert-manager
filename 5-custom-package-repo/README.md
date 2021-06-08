@@ -15,11 +15,11 @@ Then you can update the URL in the `PackageRepository` ( in file `tce-package-re
 
 \[ Note - unfortunately, `kbld` does not find the image reference in the YAML file in this case. In other cases it can perform all the previous steps for you automatically based on the image references in the kubernetes manifests, which is a more convenient way to rewrite image references. \]
 
-Installing the repository, this works, and we can install packages, but so far there is no benefit to using this over the regular repo.
+Installing the repository - `kubectl apply -f relocated-package-repo.yml` this works, and we can install the packages listed in the output of `kubectl get packages`. This procedure could be useful to make the repo available in an offline environment.
 
 ## Customizing the packages available
 
-To make this worthwhile, we can perform our own selection of the packages to make available in the repo. To do this we need to get an unpacked copy of the repo and make changes.
+We could extend this to perform our own selection of the packages to make available in the repo. To do this we need to get an unpacked copy of the repo and make changes.
 
 First, we can get an unpacked copy of the repo by running `vendir sync`, so we have a copy of the files in the `PackageRepository` container image saved under `vendor`.
 
