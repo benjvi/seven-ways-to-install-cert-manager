@@ -30,7 +30,7 @@ kubectl create sa cert-manager-tanzu-package-gitops -n default -o yaml --dry-run
 
 Since my git repo, is private, I need to create a secret for the `App` to access it. Since it contains secret data, I just create it imperatively rather than providing a manifest:
 
-`k create secret generic customized-tanzu-package-gitops-deploy-key --from-file=ssh-privatekey=id_rsa`
+`kubectl create secret generic customized-tanzu-package-gitops-deploy-key --from-file=ssh-privatekey=id_rsa`
 
 Then, the contents of the `deploy-once` folder, including a [manually written](https://carvel.dev/kapp-controller/docs/latest/app-spec/) `App`, can be created: `kubectl apply -f deploy-once` 
 
