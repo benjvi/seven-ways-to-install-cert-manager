@@ -28,6 +28,8 @@ After this additional step, we can inspect the kubernetes manifests as in the `u
 - we were able to set a different namespace using helm
 - the namespace resource is not included in the rendered chart, but it is present in the `upstream-manifests`
 
+To regenerate the `deploy/` folder, run `./generate-deployable.sh`.
+
 # Why
 
 ## Pros
