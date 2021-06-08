@@ -19,7 +19,7 @@ Now we can apply exactly the same overlay as in the previous section, to add lab
 
 `ytt -f vendor/config --ignore-unknown-comments -f cert-manager.tce.vmware.com-values.yaml -f ytt-overlay-add-label.yml | yshard -g ".kind" -o deploy-continuous`
 
-This creates a set of plain manifests in the output folder, which are ready to be applied. 
+This creates a set of plain manifests in the output folder `deploy-continuous`, which are ready to be applied. 
 
 We will use kapp-controller to apply the manifests, once again using an `App` object. In this case, this configures `kapp-controller` to connect to the git server for this repo, and reconcile the manifests in the `deploy-continuous` folder with what's running in the cluster. The `App` object also requires a service account, for which we generate the manifest with:
 
