@@ -34,9 +34,9 @@ Since my git repo, is private, I need to create a secret for the `App` to access
 
 Then, the contents of the `deploy-once` folder, including a [manually written](https://carvel.dev/kapp-controller/docs/latest/app-spec/) `App`, can be created: `kubectl apply -f deploy-once` 
 
-Now, `kapp-controller` will reconcile the app, as before and cert-manager will be deployed. In future, any changes to the `deploy-continuous` folder will also get deployed within a few seconds.
+Now, `kapp-controller` will reconcile the app, as before, and cert-manager will be deployed. In future, any changes to the `deploy-continuous` folder will also get deployed within a few seconds.
 
-## Templating 
+## In-Cluster Templating 
 
 Although we fully rendered the templates here before checking them into `deploy-continuous`, it is possible also to pass templates to `kapp-controller` and for rendering to be done by the controller, as we did in section `6-customized-tanzu-package`. By doing that, we trade off the ability to do static checks of the rendered config before deployment against the convenience of having `kapp-controller` do eveything needed for updates.
 
