@@ -50,7 +50,7 @@ Finally, we can create this `PackageRepository` from the `offline-package-repo.y
 
 ## Deploying
 
-With a `PackageRepository` available, we can now deploy in exactly the same way as we deployed Tanzu packages in previous sections.
+With a `PackageRepository` available, we can now deploy in exactly the same way as we deployed Tanzu packages in previous sections. You may go back to `3-tanzu-package` and run `kubectl apply -f deploy/` to test this out.
 
 # Why
 
