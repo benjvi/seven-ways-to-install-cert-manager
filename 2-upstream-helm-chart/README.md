@@ -30,6 +30,8 @@ After this additional step, we can inspect the kubernetes manifests as in the `u
 
 To regenerate the `deploy/` folder, run `./generate-deployable.sh`.
 
+With the templating step we generated standard Kubernetes manifests in the `deploy/` folder, so do the deploy as in the previous section, with `kubectl apply -f deploy/`. 
+
 # Why
 
 ## Pros
