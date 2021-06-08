@@ -17,7 +17,7 @@ roleRef:
 subjects:
   - kind: ServiceAccount
     name: cert-manager-cainjector
-    namespace: cert-manager-tanzu-package
+    namespace: cert-manager
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
@@ -38,7 +38,7 @@ subjects:
   - apiGroup: ""
     kind: ServiceAccount
     name: cert-manager
-    namespace: cert-manager-tanzu-package
+    namespace: cert-manager
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
@@ -50,7 +50,7 @@ metadata:
     app.kubernetes.io/name: webhook
     custom-label: custom-label-value
   name: "cert-manager-webhook:dynamic-serving"
-  namespace: cert-manager-tanzu-package
+  namespace: cert-manager
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
@@ -59,4 +59,4 @@ subjects:
   - apiGroup: ""
     kind: ServiceAccount
     name: cert-manager-webhook
-    namespace: cert-manager-tanzu-package
+    namespace: cert-manager

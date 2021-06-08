@@ -17,7 +17,7 @@ spec:
       clientConfig:
         service:
           name: cert-manager-webhook
-          namespace: cert-manager-tanzu-package
+          namespace: cert-manager
           path: /convert
       conversionReviewVersions:
         - v1
@@ -630,7 +630,7 @@ spec:
       clientConfig:
         service:
           name: cert-manager-webhook
-          namespace: cert-manager-tanzu-package
+          namespace: cert-manager
           path: /convert
       conversionReviewVersions:
         - v1
@@ -1863,7 +1863,7 @@ spec:
       clientConfig:
         service:
           name: cert-manager-webhook
-          namespace: cert-manager-tanzu-package
+          namespace: cert-manager
           path: /convert
       conversionReviewVersions:
         - v1
@@ -5203,7 +5203,7 @@ spec:
       clientConfig:
         service:
           name: cert-manager-webhook
-          namespace: cert-manager-tanzu-package
+          namespace: cert-manager
           path: /convert
       conversionReviewVersions:
         - v1
@@ -9361,7 +9361,7 @@ spec:
       clientConfig:
         service:
           name: cert-manager-webhook
-          namespace: cert-manager-tanzu-package
+          namespace: cert-manager
           path: /convert
       conversionReviewVersions:
         - v1
@@ -13519,7 +13519,7 @@ spec:
       clientConfig:
         service:
           name: cert-manager-webhook
-          namespace: cert-manager-tanzu-package
+          namespace: cert-manager
           path: /convert
       conversionReviewVersions:
         - v1

@@ -16,7 +16,7 @@ roleRef:
 subjects:
   - kind: ServiceAccount
     name: cert-manager-cainjector
-    namespace: cert-manager-tanzu-package
+    namespace: cert-manager
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
@@ -35,7 +35,7 @@ roleRef:
 subjects:
   - kind: ServiceAccount
     name: cert-manager
-    namespace: cert-manager-tanzu-package
+    namespace: cert-manager
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
@@ -54,7 +54,7 @@ roleRef:
 subjects:
   - kind: ServiceAccount
     name: cert-manager
-    namespace: cert-manager-tanzu-package
+    namespace: cert-manager
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
@@ -73,7 +73,7 @@ roleRef:
 subjects:
   - kind: ServiceAccount
     name: cert-manager
-    namespace: cert-manager-tanzu-package
+    namespace: cert-manager
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
@@ -92,7 +92,7 @@ roleRef:
 subjects:
   - kind: ServiceAccount
     name: cert-manager
-    namespace: cert-manager-tanzu-package
+    namespace: cert-manager
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
@@ -111,7 +111,7 @@ roleRef:
 subjects:
   - kind: ServiceAccount
     name: cert-manager
-    namespace: cert-manager-tanzu-package
+    namespace: cert-manager
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
@@ -130,4 +130,4 @@ roleRef:
 subjects:
   - kind: ServiceAccount
     name: cert-manager
-    namespace: cert-manager-tanzu-package
+    namespace: cert-manager

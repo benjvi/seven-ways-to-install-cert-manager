@@ -18,7 +18,7 @@ webhooks:
     clientConfig:
       service:
         name: cert-manager-webhook
-        namespace: cert-manager-tanzu-package
+        namespace: cert-manager
         path: /validate
     failurePolicy: Fail
     name: webhook.cert-manager.io

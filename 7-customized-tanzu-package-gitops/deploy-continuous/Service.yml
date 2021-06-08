@@ -9,7 +9,7 @@ metadata:
     app.kubernetes.io/name: cert-manager
     custom-label: custom-label-value
   name: cert-manager
-  namespace: cert-manager-tanzu-package
+  namespace: cert-manager
 spec:
   ports:
     - port: 9402
@@ -31,7 +31,7 @@ metadata:
     app.kubernetes.io/name: webhook
     custom-label: custom-label-value
   name: cert-manager-webhook
-  namespace: cert-manager-tanzu-package
+  namespace: cert-manager
 spec:
   ports:
     - name: https

@@ -68,7 +68,7 @@ metadata:
     app.kubernetes.io/name: webhook
     custom-label: custom-label-value
   name: "cert-manager-webhook:dynamic-serving"
-  namespace: cert-manager-tanzu-package
+  namespace: cert-manager
 rules:
   - apiGroups:
       - ""

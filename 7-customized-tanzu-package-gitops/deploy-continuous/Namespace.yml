@@ -4,4 +4,4 @@ kind: Namespace
 metadata:
   labels:
     custom-label: custom-label-value
-  name: cert-manager-tanzu-package
+  name: cert-manager
