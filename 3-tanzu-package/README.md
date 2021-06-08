@@ -33,6 +33,8 @@ This always generates an `InstalledPackage` and a `ServiceAccount`. Because we s
 
 In this case, we used the package config to specify a custom namespace to deploy into. As per [this slack thread](https://vmware.slack.com/archives/C01BJMUJK19/p1621605114154400) the namespace needs to be set to "cert-manager" otherwise the installed package won't work.
 
+Note - to cleanup tanzu packages, you currently need to delete the `InstalledPackage` *before* the `ServiceAccount`. `kapp-controller` uses the `ServiceAccount` to cleanup package resources on deletion. There is currently [an issue open](https://github.com/vmware-tanzu/carvel-kapp-controller/issues/34) to handle this dependency better.
+
 # Why
 
 ## Pros
