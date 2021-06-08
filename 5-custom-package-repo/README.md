@@ -21,7 +21,7 @@ Installing the repository, this works, and we can install packages, but so far t
 
 To make this worthwhile, we can perform our own selection of the packages to make available in the repo. To do this we need to get an unpacked copy of the repo and make changes.
 
-First, we can get an unpacked copy of the repo by running `vendir sync` in the `package-repo` folder, so we have a copy of the `PackageRepository` image saved under `package-repo/vendor`.
+First, we can get an unpacked copy of the repo by running `vendir sync`, so we have a copy of the files in the `PackageRepository` container image saved under `vendor`.
 
 Now we can modify it. The `PackageRepository` contains a list of package objects in a `packages/packages.yaml` file. In this case, we are just querying the YAML so don't need any templating tool. Use `yq` to select the packages we want:
 
