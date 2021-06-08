@@ -35,7 +35,7 @@ For a simple way to get the latest package version, we can rely on sort's semver
 
 `LATEST_PKG_VERSION=$(k get packages -o json | jq -r '.items[].spec | select(.publicName == "cert-manager.tce.vmware.com") | .version' | gsort -V | tail -n 1)`
 
-Note - the interfaces around package versioning are still undergoing changes, so this command too may be subject to change too
+Note - the interfaces around package versioning are still undergoing changes, so as with everything here, this command too may be subject to change.
 
 In this case, its not trivial to use kustomize, as (based on the limited discussion I could find) what it can accept as dynamically provided parameters is very limited. In general, when you go outside the things `kustomize` has good features for, its best to use a "proper" templating tool. So we will use ytt instead to render the version:
 
