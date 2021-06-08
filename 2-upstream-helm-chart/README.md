@@ -46,6 +46,6 @@ To regenerate the `deploy/` folder, run `./generate-deployable.sh`.
 - No way to set control over a version range, can only fetch latest versions. No advantages over Github releases in this regard
 - Not all the customizations we want to make are available, still need to make ad-hoc customizations with kustomize/ytt
 
-## TODOs
+## Suggested Extensions
 
 - Use kustomize to set labels on everything - [with a transformer](https://patrick-picard.medium.com/kustomization-applying-labels-gotchas-a53f87277661)
