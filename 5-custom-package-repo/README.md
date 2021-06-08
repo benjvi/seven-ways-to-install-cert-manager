@@ -30,7 +30,7 @@ mkdir -p deploy/packages
 cat vendor/packages/packages.yaml | yq -sy --argjson whitelist '["cert-manager.tce.vmware.com.1.1.0-vmware0","velero.tce.vmware.com.1.5.2-vmware0"]' '.[] | select( .metadata.name as $in | $whitelist | any( . == $in) )' > deploy/packages/packages.yaml
 ```
 
-Now the package repository is ready. We can push it to the new location with `imgpkg`:
+Now the package repository is ready. We can push it to the new location with `imgpkg` (remember to change the tag to point to a repository you control):
 `imgpkg push -i benjvi/custom-package-repo:stable -f deploy`
 
 As before, we create another `PackageRepository` manifest, in `custom-package-repo.yml`. After applying -`kubectl apply -f custom-package-repo.yml` - querying the packages with `kubectl get packages` will show only the two selected packages available in the cluster.
