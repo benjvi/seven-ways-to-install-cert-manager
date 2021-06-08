@@ -17,6 +17,8 @@ We set up a `kustomization.yaml` here to add the necessary additions to the vers
 
 `kustomize build | yshard -g ".kind" -o deploy`
 
+Then by running `kubectl apply -f deploy/` we create a cert-manager that auto-updates on new package versions being made available.
+
 ## Why
 
 In this way, its possible to tell a cluster to stay on the latest version of a component, or to always take the latest security updates but not automatically update to a new major version of a package (by setting a less than version constraint). The version constraint uses [this library](https://github.com/blang/semver) so there are lots of possibilities for setting version ranges.
