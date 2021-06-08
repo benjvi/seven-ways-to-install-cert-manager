@@ -9,7 +9,7 @@ First, we have to find out the location of the package, which we can get from th
 
 `k get packages -o json | yq -r ".items[] | select(.metadata.name == \"cert-manager.tce.vmware.com.1.1.0-vmware0\") | .spec.template.spec.fetch[].imgpkgBundle.image"`
 
-This gives an image reference to an [`imgpkgBundle` (TODO)]() for the package. NB: we could replace the version section of the package name by a variable `LATEST_PKG_VERION`, so we could fetch the latest version of a package as we did in section `4-auto-updates`. 
+This gives an image reference to an [`imgpkgBundle`](https://carvel.dev/imgpkg/docs/latest/resources/#bundle) for the package. NB: we could replace the version section of the package name by a variable `LATEST_PKG_VERION`, so we could fetch the latest version of a package as we did in section `4-auto-updates`. 
 
 Since `vendir` understands imgpkg bundles, we then define a `vendir.yml` so we can download the package by running `vendir sync`. 
 
