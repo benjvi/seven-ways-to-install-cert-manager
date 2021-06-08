@@ -41,7 +41,7 @@ In this case, its not trivial to use kustomize, as (based on the limited discuss
 
 `ytt -f vendor -f overlay.yml -f values.yml -v "package_version=$LATEST_PKG_VERSION" | yshard -g ".kind" -o deploy`
 
-Once we have the updated `InstalledPackage` manifest we can then promote it through different environments, deploying it in the best order to minimise risk. 
+Once we have the updated `InstalledPackage` manifest we can then promote it through different environments, deploying it (`kubectl apply -f deploy/`) in the best order to minimise risk. 
 
 ## Why
 
