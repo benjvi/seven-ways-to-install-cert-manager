@@ -7,7 +7,7 @@ spec:
   packageRef:
     publicName: cert-manager.tce.vmware.com
     versionSelection:
-      constraints: v1.10.0-vmware0
+      constraints: 1.1.0-vmware0
       prereleases: {}
   serviceAccountName: cert-manager.tce.vmware.com-extension-sa
   values:

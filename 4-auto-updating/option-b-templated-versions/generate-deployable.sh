@@ -9,7 +9,7 @@ SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 # the namespace where the *installedpackage object* will be installed, not cert-manager itself
 NAMESPACE="default"
 TANZU_PKG="cert-manager.tce.vmware.com"
-OUTDIR="deploy"
+OUTDIR="vendor"
 # need to be connected to a tanzu cluster (kapp-controller installed)
 tanzu package install "$TANZU_PKG" --config cert-manager.tce.vmware.com-values.yaml --namespace "$NAMESPACE"
 kubectl get secret "$TANZU_PKG-config" -n "$NAMESPACE" -o yaml | klean-yaml > "$SCRIPT_DIR/$OUTDIR/Secret.yml"
@@ -17,4 +17,5 @@ kubectl get installedpackage "$TANZU_PKG" -n "$NAMESPACE" -o yaml | klean-yaml >
 kubectl get sa "$TANZU_PKG-extension-sa" -n "$NAMESPACE" -o yaml | klean-yaml | yq -y "del(.secrets)" > "$SCRIPT_DIR/$OUTDIR/ServiceAccount.yml"
 tanzu package delete "$TANZU_PKG" -n "$NAMESPACE"
 
-
+LATEST_PKG_VERSION=$(kubectl get packages -o json | jq -r '.items[].spec | select(.publicName == "cert-manager.tce.vmware.com") | .version' | gsort -V | tail -n 1)
+ytt -f vendor -f overlay.yml -f values.yml -v "package_version=$LATEST_PKG_VERSION" | yshard -g ".kind" -o deploy
