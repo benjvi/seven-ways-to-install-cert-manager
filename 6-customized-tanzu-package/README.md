@@ -7,9 +7,9 @@ In addition to the `InstalledPackage` resource we looked at earlier, `kapp-contr
 
 We start very similar to how we started in `3-tanzu-packages`, but instead of fetching an `InstalledPackage` from the Kubernetes API, now we fetch an `App` resource. Before we write out the Kubernetes manifests to the `deploy` folder, we want to make changes to the `App` resource to add additional templating steps.
 
-We will add an additional ytt step, which uses ytt overlays to customize the manifest. Our customization will be [to apply labels to all the items in the manifest](https://github.com/vmware-tanzu/carvel-ytt/tree/develop/examples/k8s-add-global-label).
+We will add an additional ytt step, which uses ytt overlays to customize the manifest. Our customization will be [to apply labels to all the items in the manifest](https://github.com/vmware-tanzu/carvel-ytt/tree/develop/examples/k8s-add-global-label), which is in file `ytt-overlay-add-label.yml`.
 
-The step will look something like this:
+The addtional step in the `App` will look something like this:
 
 ```
 - ytt:
@@ -26,11 +26,11 @@ Because rendering has already taken place, we must tell `ytt` to include '-' (ST
 
 So we need to add this to our existing `App` definition, which we will (rather confusingly) also do with a `ytt` overlay - from file `app-overlay-add-ytt-step.yml`.
 
-So, we have an extra step which will be invoked by `kapp-controller`. But now we need to pass the overlay file as a `ConfigMap`. We generate the `ConfigMap` manifest imperatively.
+So, we have an extra step which will be invoked by `kapp-controller`. But now we need to pass the overlay file `ytt-overlay-add-label.yml` to the App as a `ConfigMap`. We generate the `ConfigMap` manifest imperatively.
 
 Look into `./generate-deployable.sh` to see all the steps combined, and run it to regenerate the `deploy` folder.
 
-After creating the app with `kubectl apply -f deploy/`, you will be able to see the additional label `custom-label=custom-label-value` present on the new namespace, and deployments within it. It is not present on the pods, because for that we would need to set the label on the deployment's `PodTemplate` too - which we didn't do.
+After creating the app with `kubectl apply -f deploy/`, you will be able to see the additional label `custom-label=custom-label-value` present on the new namespace, and deployments within it. Note it is not present on the pods, because for that we would need to set the label on the deployment's `PodTemplate` too - which we didn't do.
 
 # Why
 
